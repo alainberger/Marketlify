@@ -1,112 +1,236 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Les Bonnes Affaires</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    /* Reset global */
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketlify</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Reset global */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-    html, body {
-      height: 100%;
-      font-family: 'Inter', sans-serif;
-      background: radial-gradient(
-        125% 125% at -2% 101%,
-        rgba(245, 87, 2, 1) 10.5%,
-        rgba(245, 120, 2, 1) 16%,
-        rgba(245, 140, 2, 1) 17.5%,
-        rgba(245, 170, 100, 1) 25%,
-        rgba(238, 174, 202, 1) 40%,
-        rgba(202, 179, 214, 1) 65%,
-        rgba(148, 201, 233, 1) 100%
-      );
-    }
+html, body {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at center, 
+    rgba(245,87,2,1) 0%, 
+    rgba(245,120,2,1) 15%, 
+    rgba(245,140,2,1) 25%, 
+    rgba(245,170,100,1) 40%, 
+    rgba(238,174,202,1) 55%, 
+    rgba(202,179,214,1) 75%, 
+    rgba(148,201,233,1) 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: #111;
+  line-height: 1.6;
+}
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+.container { display:flex; flex-direction:column; min-height:100vh; }
 
-    /* Header avec logo en haut et plus de hauteur */
-    header {
-      display: flex;
-      justify-content: center; /* centre horizontalement le logo */
-      align-items: flex-start; /* colle le logo en haut */
-      padding-top: 20px; /* plus proche du haut */
-      padding-bottom: 10px;
-      height: 350px; /* hauteur parfaite pour le logo agrandi */
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: transparent;
-    }
+/* Header */
+header {
+  display:flex; flex-direction:column; align-items:center; padding:40px 20px; background:transparent;
+}
+.logo img { height:280px; width:auto; object-fit:contain; display:block; margin-bottom:30px; }
 
-    header .logo img {
-      height: 300px; /* logo agrandi */
-      width: auto;
-      object-fit: contain;
-      display: block;
-    }
+.nav-bar ul { display:flex; justify-content:center; gap:40px; list-style:none; }
+.nav-bar ul li a { text-decoration:none; font-weight:600; color:#111; font-size:1.1rem; transition:color 0.3s; }
+.nav-bar ul li a:hover, .nav-bar ul li a:focus { color:#f57a02; outline:none; }
 
-    /* Main */
-    main {
-      flex: 1;
-      padding: 50px 20px;
-      text-align: center;
-      font-size: 1.2rem;
-      color: #111;
-    }
+/* Main */
+main { flex:1; width:100%; max-width:1200px; margin:0 auto; padding:50px 20px; text-align:center; }
+main h1 { font-size:2.5rem; margin-bottom:50px; }
 
-    /* Footer */
-    footer {
-      background: transparent;
-      color: #111;
-      padding: 30px 20px;
-      text-align: center;
-      font-size: 0.9rem;
-    }
+section { margin-bottom:70px; background:transparent; box-shadow:none; }
 
-    /* Responsive */
-    @media (max-width: 1024px) {
-      header .logo img { height: 220px; }
-      header { height: 270px; padding-top: 15px; }
-    }
-    @media (max-width: 768px) {
-      header .logo img { height: 160px; }
-      header { height: 200px; padding-top: 10px; }
-    }
+/* Slider */
+.slider { position:relative; padding:40px 20px; border-radius:20px; max-width:700px; margin:0 auto 50px auto; }
+.slide { display:none; font-size:1.4rem; font-weight:500; }
+.slide.active { display:block; opacity:1; transition:opacity 0.6s ease-in-out; }
 
-  </style>
+/* Boutons 3D Marketlify */
+.button-container { display:flex; justify-content:center; margin:20px; }
+.button-3d { -webkit-appearance:none; appearance:none; position:relative; border-width:0; padding:0 8px; min-width:4em; min-height:4em; box-sizing:border-box; background:transparent; font:inherit; cursor:pointer; margin:10px; border-radius:20px; }
+.button-top {
+  display:flex; align-items:center; justify-content:center; position:relative; z-index:2;
+  padding:8px 16px; transform: translateY(0); color:#fff;
+  background-image: radial-gradient(circle at center, 
+    rgba(245,87,2,1) 0%, 
+    rgba(245,120,2,1) 15%, 
+    rgba(245,140,2,1) 25%, 
+    rgba(245,170,100,1) 40%, 
+    rgba(238,174,202,1) 55%, 
+    rgba(202,179,214,1) 75%, 
+    rgba(148,201,233,1) 100%);
+  text-shadow: 0 -1px rgba(0,0,0,0.25); border-radius:20px; transition: transform 0.3s, border-radius 0.3s, background 0.5s;
+}
+.button-3d:active .button-top {
+  border-radius:10px 10px 8px 8px / 8px; transform: translateY(2px);
+  background-image: radial-gradient(circle at center,
+    rgba(148,201,233,1) 0%, 
+    rgba(202,179,214,1) 25%, 
+    rgba(238,174,202,1) 40%, 
+    rgba(245,170,100,1) 60%, 
+    rgba(245,140,2,1) 80%, 
+    rgba(245,87,2,1) 100%
+  );
+}
+.button-bottom { position:absolute; z-index:1; bottom:4px; left:4px; border-radius:20px; padding-top:6px; width:calc(100% - 8px); height:calc(100% - 10px);
+  background-image: radial-gradient(circle at center, 
+    rgba(245,87,2,1) 0%, 
+    rgba(245,120,2,1) 15%, 
+    rgba(245,140,2,1) 25%, 
+    rgba(245,170,100,1) 40%, 
+    rgba(238,174,202,1) 55%, 
+    rgba(202,179,214,1) 75%, 
+    rgba(148,201,233,1) 100%);
+  box-shadow:0px 2px 3px 0px rgba(0,0,0,0.5); transition:border-radius 0.2s, padding-top 0.2s; 
+}
+.button-base { position:absolute; z-index:0; top:4px; left:0; border-radius:20px; width:100%; height:calc(100% - 4px); background-color: rgba(0,0,0,0.15); box-shadow:0 1px 1px 0 rgba(255,255,255,0.75), inset 0 2px 2px rgba(0,0,0,0.25); transition:border-radius 0.2s, padding-top 0.2s; }
+.button-3d:active .button-bottom { border-radius:10px 10px 8px 8px /8px; padding-top:0; }
+.button-3d:active .button-base { border-radius:10px 10px 8px 8px /8px; }
+
+/* Top Offres */
+.top-offres h2 { margin-bottom:30px; font-size:2rem; }
+.offres-container { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; }
+.offre { background:transparent; padding:25px 20px; border-radius:15px; min-width:180px; box-shadow:none; transition:transform 0.3s; }
+.offre:hover { transform: translateY(-5px); }
+.offre button { margin-top:15px; padding:10px 15px; border:none; border-radius:8px; background-color:#f57a02; color:white; cursor:pointer; font-weight:600; }
+.offre button:hover { background-color:#f58f2a; }
+
+/* Newsletter */
+.newsletter { background:transparent; padding:40px 20px; border-radius:20px; box-shadow:none; max-width:600px; margin:0 auto; }
+.newsletter h2 { margin-bottom:20px; font-size:2rem; }
+.newsletter input { padding:12px 15px; border-radius:8px; border:1px solid #ccc; width:220px; margin-right:10px; font-size:1rem; }
+.newsletter button { padding:12px 20px; border:none; border-radius:8px; background-color:#f57a02; color:white; cursor:pointer; font-weight:600; }
+.newsletter button:hover { background-color:#f58f2a; }
+
+/* Avis clients */
+.avis { background:transparent; padding:40px 20px; border-radius:20px; box-shadow:none; max-width:700px; margin:0 auto; }
+.avis h2 { font-size:2rem; margin-bottom:25px; }
+.avis p { font-size:1.2rem; margin-bottom:15px; }
+
+/* Footer */
+footer { background:transparent; color:#111; padding:40px 20px; text-align:center; font-size:0.95rem; }
+
+/* Responsive */
+@media(max-width:1024px){ .logo img{height:220px;} .nav-bar ul{gap:30px;} }
+@media(max-width:768px){ 
+  .logo img{height:160px;} 
+  .nav-bar ul{flex-direction:column; gap:20px;} 
+  .offres-container{flex-direction:column; gap:25px;} 
+  .newsletter input{width:160px;}
+  main h1 { font-size:2rem; margin-bottom:40px; }
+  .top-offres h2, .newsletter h2, .avis h2 { font-size:1.8rem; }
+}
+</style>
 </head>
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <!-- Header avec logo en hauteur parfaite -->
-    <header>
-      <div class="logo">
-        <img src="https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png" alt="Les Bonnes Affaires">
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png" alt="Marketlify" role="banner">
+    </div>
+    <nav class="nav-bar" role="navigation">
+      <ul>
+        <li><a href="#">Accueil</a></li>
+        <li><a href="#">Promotions</a></li>
+        <li><a href="#">Nouveautés</a></li>
+        <li><a href="#">Catégories</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <h1>Bienvenue sur Marketlify !</h1>
+
+    <!-- Slider -->
+    <section class="slider" aria-label="Promotions en cours">
+      <div class="slide active">-50% sur tous les produits électroniques !</div>
+      <div class="slide">Livraison gratuite pour toute commande supérieure à 50€ !</div>
+      <div class="slide">Nouveau stock disponible pour vos produits préférés !</div>
+
+      <!-- Boutons 3D -->
+      <div class="button-container">
+        <button class="button-3d" id="prevBtn" aria-label="Slide précédente">
+          <div class="button-top"><span>❮</span></div>
+          <div class="button-bottom"></div>
+          <div class="button-base"></div>
+        </button>
+        <button class="button-3d" id="nextBtn" aria-label="Slide suivante">
+          <div class="button-top"><span>❯</span></div>
+          <div class="button-bottom"></div>
+          <div class="button-base"></div>
+        </button>
       </div>
-    </header>
+    </section>
 
-    <!-- Main -->
-    <main>
-      <p>Bienvenue sur Les Bonnes Affaires ! Le logo est maintenant parfaitement placé en haut du site.</p>
-    </main>
+    <!-- Top Offres -->
+    <section class="top-offres">
+      <h2>Top Offres</h2>
+      <div class="offres-container">
+        <div class="offre">Produit 1 - 19,99€ <button>Acheter</button></div>
+        <div class="offre">Produit 2 - 29,99€ <button>Acheter</button></div>
+        <div class="offre">Produit 3 - 9,99€ <button>Acheter</button></div>
+      </div>
+    </section>
 
-    <!-- Footer -->
-    <footer>
-      © 2025 Les Bonnes Affaires. Tous droits réservés.
-    </footer>
+    <!-- Newsletter -->
+    <section class="newsletter">
+      <h2>Inscris-toi à la newsletter</h2>
+      <input type="email" placeholder="Ton email">
+      <button>S'inscrire</button>
+    </section>
 
-  </div>
+    <!-- Avis clients -->
+    <section class="avis">
+      <h2>Avis clients</h2>
+      <p>“Super site, j’ai trouvé des offres incroyables !” – Alice</p>
+      <p>“Service rapide et produits de qualité.” – Marc</p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Marketlify. Tous droits réservés.
+  </footer>
+</div>
+
+<!-- JS Slider -->
+<script>
+const slides = document.querySelectorAll('.slide');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+let current = 0;
+
+function showSlide(index){
+  slides.forEach(s => s.classList.remove('active'));
+  slides[index].classList.add('active');
+}
+
+prevBtn.addEventListener('click', () => {
+  current = (current - 1 + slides.length) % slides.length;
+  showSlide(current);
+});
+
+nextBtn.addEventListener('click', () => {
+  current = (current + 1) % slides.length;
+  showSlide(current);
+});
+
+// Auto slide toutes les 4 secondes
+setInterval(() => {
+  current = (current + 1) % slides.length;
+  showSlide(current);
+}, 4000);
+</script>
 
 </body>
 </html>
