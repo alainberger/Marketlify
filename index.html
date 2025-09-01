@@ -50,47 +50,106 @@ section { margin-bottom:70px; background:transparent; box-shadow:none; }
 .slide { display:none; font-size:1.4rem; font-weight:500; }
 .slide.active { display:block; opacity:1; transition:opacity 0.6s ease-in-out; }
 
-/* Boutons 3D Marketlify */
-.button-container { display:flex; justify-content:center; margin:20px; }
-.button-3d { -webkit-appearance:none; appearance:none; position:relative; border-width:0; padding:0 8px; min-width:4em; min-height:4em; box-sizing:border-box; background:transparent; font:inherit; cursor:pointer; margin:10px; border-radius:20px; }
+/* From Uiverse.io by Z4drus (adapté avec le gradient Marketlify) */ 
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.button-3d {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  border-width: 0;
+  padding: 0 8px;
+  min-width: 4em;
+  min-height: 4em;
+  box-sizing: border-box;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 20px;
+}
+
 .button-top {
-  display:flex; align-items:center; justify-content:center; position:relative; z-index:2;
-  padding:8px 16px; transform: translateY(0); color:#fff;
-  background-image: radial-gradient(circle at center, 
-    rgba(245,87,2,1) 0%, 
-    rgba(245,120,2,1) 15%, 
-    rgba(245,140,2,1) 25%, 
-    rgba(245,170,100,1) 40%, 
-    rgba(238,174,202,1) 55%, 
-    rgba(202,179,214,1) 75%, 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  padding: 8px 16px;
+  transform: translateY(0);
+  color: #fff;
+  background-image: linear-gradient(145deg,
+    rgba(245,87,2,1) 10.5%,
+    rgba(245,120,2,1) 16%,
+    rgba(245,140,2,1) 17.5%,
+    rgba(245,170,100,1) 25%,
+    rgba(238,174,202,1) 40%,
+    rgba(202,179,214,1) 65%,
     rgba(148,201,233,1) 100%);
-  text-shadow: 0 -1px rgba(0,0,0,0.25); border-radius:20px; transition: transform 0.3s, border-radius 0.3s, background 0.5s;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  transition: transform 0.3s, border-radius 0.3s, background 0.5s;
 }
+
 .button-3d:active .button-top {
-  border-radius:10px 10px 8px 8px / 8px; transform: translateY(2px);
-  background-image: radial-gradient(circle at center,
-    rgba(148,201,233,1) 0%, 
-    rgba(202,179,214,1) 25%, 
-    rgba(238,174,202,1) 40%, 
-    rgba(245,170,100,1) 60%, 
-    rgba(245,140,2,1) 80%, 
-    rgba(245,87,2,1) 100%
-  );
+  border-radius: 10px 10px 8px 8px / 8px;
+  transform: translateY(2px);
+  background-image: linear-gradient(145deg,
+    rgba(148,201,233,1) 0%,
+    rgba(202,179,214,1) 25%,
+    rgba(238,174,202,1) 40%,
+    rgba(245,170,100,1) 60%,
+    rgba(245,140,2,1) 80%,
+    rgba(245,87,2,1) 100%);
 }
-.button-bottom { position:absolute; z-index:1; bottom:4px; left:4px; border-radius:20px; padding-top:6px; width:calc(100% - 8px); height:calc(100% - 10px);
-  background-image: radial-gradient(circle at center, 
-    rgba(245,87,2,1) 0%, 
-    rgba(245,120,2,1) 15%, 
-    rgba(245,140,2,1) 25%, 
-    rgba(245,170,100,1) 40%, 
-    rgba(238,174,202,1) 55%, 
-    rgba(202,179,214,1) 75%, 
+
+.button-bottom {
+  position: absolute;
+  z-index: 1;
+  bottom: 4px;
+  left: 4px;
+  border-radius: 20px;
+  padding-top: 6px;
+  width: calc(100% - 8px);
+  height: calc(100% - 10px);
+  background-image: linear-gradient(145deg,
+    rgba(245,87,2,1) 10.5%,
+    rgba(245,120,2,1) 16%,
+    rgba(245,140,2,1) 17.5%,
+    rgba(245,170,100,1) 25%,
+    rgba(238,174,202,1) 40%,
+    rgba(202,179,214,1) 65%,
     rgba(148,201,233,1) 100%);
-  box-shadow:0px 2px 3px 0px rgba(0,0,0,0.5); transition:border-radius 0.2s, padding-top 0.2s; 
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+  transition: border-radius 0.2s, padding-top 0.2s;
 }
-.button-base { position:absolute; z-index:0; top:4px; left:0; border-radius:20px; width:100%; height:calc(100% - 4px); background-color: rgba(0,0,0,0.15); box-shadow:0 1px 1px 0 rgba(255,255,255,0.75), inset 0 2px 2px rgba(0,0,0,0.25); transition:border-radius 0.2s, padding-top 0.2s; }
-.button-3d:active .button-bottom { border-radius:10px 10px 8px 8px /8px; padding-top:0; }
-.button-3d:active .button-base { border-radius:10px 10px 8px 8px /8px; }
+
+.button-base {
+  position: absolute;
+  z-index: 0;
+  top: 4px;
+  left: 0;
+  border-radius: 20px;
+  width: 100%;
+  height: calc(100% - 4px);
+  background-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 2px 2px rgba(0, 0, 0, 0.25);
+  transition: border-radius 0.2s, padding-top 0.2s;
+}
+
+.button-3d:active .button-bottom {
+  border-radius: 10px 10px 8px 8px / 8px;
+  padding-top: 0;
+}
+
+.button-3d:active .button-base {
+  border-radius: 10px 10px 8px 8px / 8px;
+}
 
 /* Top Offres */
 .top-offres h2 { margin-bottom:30px; font-size:2rem; }
@@ -157,15 +216,19 @@ footer { background:transparent; color:#111; padding:40px 20px; text-align:cente
       <div class="slide">Livraison gratuite pour toute commande supérieure à 50€ !</div>
       <div class="slide">Nouveau stock disponible pour vos produits préférés !</div>
 
-      <!-- Boutons 3D -->
+      <!-- Boutons 3D avec le même dégradé que la page -->
       <div class="button-container">
         <button class="button-3d" id="prevBtn" aria-label="Slide précédente">
-          <div class="button-top"><span>❮</span></div>
+          <div class="button-top">
+            <span class="material-icons">❮</span>
+          </div>
           <div class="button-bottom"></div>
           <div class="button-base"></div>
         </button>
         <button class="button-3d" id="nextBtn" aria-label="Slide suivante">
-          <div class="button-top"><span>❯</span></div>
+          <div class="button-top">
+            <span class="material-icons">❯</span>
+          </div>
           <div class="button-bottom"></div>
           <div class="button-base"></div>
         </button>
@@ -176,61 +239,4 @@ footer { background:transparent; color:#111; padding:40px 20px; text-align:cente
     <section class="top-offres">
       <h2>Top Offres</h2>
       <div class="offres-container">
-        <div class="offre">Produit 1 - 19,99€ <button>Acheter</button></div>
-        <div class="offre">Produit 2 - 29,99€ <button>Acheter</button></div>
-        <div class="offre">Produit 3 - 9,99€ <button>Acheter</button></div>
-      </div>
-    </section>
-
-    <!-- Newsletter -->
-    <section class="newsletter">
-      <h2>Inscris-toi à la newsletter</h2>
-      <input type="email" placeholder="Ton email">
-      <button>S'inscrire</button>
-    </section>
-
-    <!-- Avis clients -->
-    <section class="avis">
-      <h2>Avis clients</h2>
-      <p>“Super site, j’ai trouvé des offres incroyables !” – Alice</p>
-      <p>“Service rapide et produits de qualité.” – Marc</p>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    © 2025 Marketlify. Tous droits réservés.
-  </footer>
-</div>
-
-<!-- JS Slider -->
-<script>
-const slides = document.querySelectorAll('.slide');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-let current = 0;
-
-function showSlide(index){
-  slides.forEach(s => s.classList.remove('active'));
-  slides[index].classList.add('active');
-}
-
-prevBtn.addEventListener('click', () => {
-  current = (current - 1 + slides.length) % slides.length;
-  showSlide(current);
-});
-
-nextBtn.addEventListener('click', () => {
-  current = (current + 1) % slides.length;
-  showSlide(current);
-});
-
-// Auto slide toutes les 4 secondes
-setInterval(() => {
-  current = (current + 1) % slides.length;
-  showSlide(current);
-}, 4000);
-</script>
-
-</body>
-</html>
+        <div class="
