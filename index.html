@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Marketlify</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
 /* Reset global */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -33,18 +33,64 @@ html, body {
 header {
   display:flex; flex-direction:column; align-items:center; padding:40px 20px; background:transparent;
 }
-.logo img { height:280px; width:auto; object-fit:contain; display:block; margin-bottom:30px; }
+.logo img { height:280px; width:auto; object-fit:contain; display:block; margin-bottom:20px; }
 
-.nav-bar ul { display:flex; justify-content:center; gap:40px; list-style:none; }
-.nav-bar ul li a { text-decoration:none; font-weight:600; color:#111111; font-size:1.1rem; transition:color 0.3s; font-family: 'Inter', sans-serif;}
-.nav-bar ul li a:hover, .nav-bar ul li a:focus { color:#f57a02; outline:none; }
+/* Barre de recherche */
+.search-bar {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  max-width:600px;
+  margin-bottom:20px;
+  background: linear-gradient(145deg,
+    rgba(245,87,2,1),
+    rgba(245,120,2,1),
+    rgba(245,140,2,1),
+    rgba(245,170,100,1),
+    rgba(238,174,202,1),
+    rgba(202,179,214,1),
+    rgba(148,201,233,1)
+  );
+  border-radius:30px;
+  padding:5px 10px;
+}
+.search-bar input {
+  flex:1;
+  border:none;
+  border-radius:30px;
+  padding:12px 20px;
+  font-size:1rem;
+  font-family:'Montserrat', sans-serif;
+  outline:none;
+}
+.search-bar button {
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  margin-left:10px;
+}
+.search-bar button svg { width:24px; height:24px; }
+
+/* Dashboard */
+.dashboard {
+  display:flex;
+  justify-content:space-evenly;
+  align-items:center;
+  width:100%;
+  background: rgba(255,255,255,0.15);
+  padding:12px 0;
+  border-radius:10px;
+  margin-bottom:40px;
+  font-family:'Montserrat', sans-serif;
+  font-weight:600;
+  color:#fff;
+}
+.dashboard span { cursor:pointer; transition:0.3s; }
+.dashboard span:hover { color:#f57a02; }
 
 /* Main */
-main { flex:1; width:100%; max-width:1200px; margin:0 auto; padding:50px 20px; text-align:center; }
-main h1 { font-family:'Montserrat', sans-serif; font-size:2.5rem; margin-bottom:50px; color:#111111; font-weight:700; }
-
-/* Sections */
-section { margin-bottom:70px; background:transparent; }
+main { flex:1; width:100%; max-width:1200px; margin:0 auto; padding:20px; text-align:center; }
 
 /* Slider */
 .slider { position:relative; padding:40px 20px; border-radius:20px; max-width:700px; margin:0 auto 30px auto; }
@@ -136,88 +182,29 @@ section { margin-bottom:70px; background:transparent; }
 .button-3d:active .button-bottom { border-radius: 10px 10px 8px 8px / 8px; padding-top: 0; }
 .button-3d:active .button-base { border-radius: 10px 10px 8px 8px / 8px; }
 
-/* Boutons spéciaux */
-.btn-buy {
-  padding: 14px 25px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #fff;
-  background: linear-gradient(135deg, #f57a02, #f58f2a);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+/* Bouton Découvrir Articles */
+.btn-discover {
+  margin:30px auto;
+  display:inline-block;
+  padding:14px 28px;
+  font-family:'Montserrat', sans-serif;
+  font-weight:600;
+  font-size:1.2rem;
+  color:#fff;
+  background-image: linear-gradient(145deg,
+    rgba(245,87,2,1),
+    rgba(245,120,2,1),
+    rgba(245,140,2,1),
+    rgba(245,170,100,1),
+    rgba(238,174,202,1),
+    rgba(202,179,214,1),
+    rgba(148,201,233,1)
+  );
+  border:none;
+  border-radius:25px;
+  cursor:pointer;
+  text-align:center;
 }
-.btn-buy:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-.btn-buy:active { transform: translateY(1px); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-
-.btn-light {
-  padding: 12px 22px;
-  background: transparent;
-  border: 2px solid #f57a02;
-  border-radius: 25px;
-  color: #f57a02;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.btn-light:hover {
-  background: #f57a02;
-  color: #fff;
-  box-shadow: 0 0 12px rgba(245,122,2,0.6);
-}
-
-.btn-glow {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  background: #f57a02;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: box-shadow 0.3s, transform 0.2s;
-}
-.btn-glow:hover {
-  box-shadow: 0 0 15px rgba(245,122,2,0.8), 0 0 30px rgba(245,122,2,0.5);
-  transform: scale(1.05);
-}
-
-.floating-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #f57a02;
-  color: #fff;
-  font-size: 1.5rem;
-  padding: 15px;
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  text-decoration: none;
-  transition: transform 0.2s;
-}
-.floating-btn:hover {
-  transform: scale(1.1);
-  background: #f58f2a;
-}
-
-/* Top Offres */
-.top-offres h2 { font-family:'Montserrat', sans-serif; margin-bottom:30px; font-size:2rem; color:#f57a02; }
-.offres-container { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; }
-.offre { background:#fff4; padding:25px 20px; border-radius:15px; min-width:180px; transition:transform 0.3s; font-family:'Inter', sans-serif; color:#111111; }
-.offre:hover { transform: translateY(-5px); }
-.offre img { width:100%; border-radius:10px; margin-bottom:10px; }
-.offre h3 { margin:5px 0; font-size:1.2rem; }
-.offre p { color:#444; }
-
-/* Newsletter */
-.newsletter { background:transparent; padding:40px 20px; border-radius:20px; box-shadow:none; max-width:600px; margin:0 auto; }
-.newsletter h2 { margin-bottom:20px; font-size:2rem; font-family:'Montserrat', sans-serif; color:#f57a02;}
-.newsletter input { padding:12px 15px; border-radius:8px; border:1px solid #ccc; width:220px; margin-right:10px; font-size:1rem; font-family:'Inter', sans-serif; }
-
-/* Avis clients */
-.avis { background:transparent; padding:40px 20px; border-radius:20px; box-shadow:none; max-width:700px; margin:0 auto; }
-.avis h2 { font-size:2rem; margin-bottom:25px; font-family:'Montserrat', sans-serif; color:#f57a02; }
-.avis p { font-size:1.2rem; margin-bottom:15px; font-family:'Inter', sans-serif; color:#111111; }
 
 /* Footer */
 footer { background:transparent; color:#111111; padding:40px 20px; text-align:center; font-size:0.95rem; font-family:'Inter', sans-serif; }
@@ -225,15 +212,10 @@ footer { background:transparent; color:#111111; padding:40px 20px; text-align:ce
 /* Responsive */
 @media(max-width:1024px){
   .logo img{height:220px;} 
-  .nav-bar ul{gap:30px;} 
 }
 @media(max-width:768px){ 
   .logo img{height:160px;} 
-  .nav-bar ul{flex-direction:column; gap:20px;} 
-  .offres-container{flex-direction:column; gap:25px;} 
-  .newsletter input{width:160px;}
-  main h1 { font-size:2rem; margin-bottom:40px; }
-  .top-offres h2, .newsletter h2, .avis h2 { font-size:1.8rem; }
+  .dashboard { font-size:0.9rem; }
 }
 </style>
 </head>
@@ -245,26 +227,33 @@ footer { background:transparent; color:#111111; padding:40px 20px; text-align:ce
     <div class="logo">
       <img src="https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png" alt="Marketlify" role="banner">
     </div>
-    <nav class="nav-bar" role="navigation">
-      <ul>
-        <li><a href="#">Accueil</a></li>
-        <li><a href="#">Promotions</a></li>
-        <li><a href="#">Nouveautés</a></li>
-        <li><a href="#">Catégories</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
+
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+      <input type="text" placeholder="Recherché sur Marketlify...">
+      <button aria-label="Rechercher">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
+      </button>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+      <span>Accueil</span>
+      <span>Promotions</span>
+      <span>Nouveautés</span>
+      <span>Catégories</span>
+      <span>Contact</span>
+    </div>
+
   </header>
 
   <!-- Main -->
   <main>
-    <h1>Bienvenue sur Marketlify !</h1>
-
     <!-- Slider -->
     <section class="slider" aria-label="Promotions en cours">
-      <div class="slide active">-50% sur tous les produits électroniques !</div>
-      <div class="slide">Livraison gratuite pour toute commande supérieure à 50€ !</div>
-      <div class="slide">Nouveau stock disponible pour vos produits préférés !</div>
+      <div class="slide active">Slide 1</div>
+      <div class="slide">Slide 2</div>
+      <div class="slide">Slide 3</div>
 
       <!-- Boutons 3D -->
       <div class="button-container">
@@ -281,47 +270,9 @@ footer { background:transparent; color:#111111; padding:40px 20px; text-align:ce
       </div>
     </section>
 
-    <!-- Bouton Découvrir -->
-    <button class="btn-light">✨ Découvrir nos offres</button>
+    <!-- Bouton Découvrir Articles -->
+    <button class="btn-discover">Découvrir nos articles</button>
 
-    <!-- Top Offres -->
-    <section class="top-offres">
-      <h2>Top Offres</h2>
-      <div class="offres-container">
-        <div class="offre">
-          <img src="https://via.placeholder.com/150" alt="Produit A">
-          <h3>Produit A</h3>
-          <p>Prix : <b>29,99€</b></p>
-          <button class="btn-buy">🛒 Acheter maintenant</button>
-        </div>
-        <div class="offre">
-          <img src="https://via.placeholder.com/150" alt="Produit B">
-          <h3>Produit B</h3>
-          <p>Prix : <b>49,99€</b></p>
-          <button class="btn-buy">🛒 Acheter maintenant</button>
-        </div>
-        <div class="offre">
-          <img src="https://via.placeholder.com/150" alt="Produit C">
-          <h3>Produit C</h3>
-          <p>Prix : <b>19,99€</b></p>
-          <button class="btn-buy">🛒 Acheter maintenant</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Newsletter -->
-    <section class="newsletter">
-      <h2>Inscrivez-vous à notre newsletter</h2>
-      <input type="email" placeholder="Votre email">
-      <button class="btn-glow">📩 S'inscrire</button>
-    </section>
-
-    <!-- Avis clients -->
-    <section class="avis">
-      <h2>Avis clients</h2>
-      <p>"Très bon site, livraison rapide !" - Alice</p>
-      <p>"Produits de qualité et prix attractifs." - Karim</p>
-    </section>
   </main>
 
   <!-- Footer -->
@@ -330,9 +281,6 @@ footer { background:transparent; color:#111111; padding:40px 20px; text-align:ce
   </footer>
 
 </div>
-
-<!-- Bouton flottant -->
-<a href="#" class="floating-btn">🛍</a>
 
 <script>
 /* Slider JS */
