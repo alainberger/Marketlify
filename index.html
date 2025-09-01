@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Marketlify</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
 <style>
 /* Reset global */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -23,7 +23,7 @@ html, body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  color: #111;
+  color: #111111;
   line-height: 1.6;
 }
 
@@ -36,27 +36,23 @@ header {
 .logo img { height:280px; width:auto; object-fit:contain; display:block; margin-bottom:30px; }
 
 .nav-bar ul { display:flex; justify-content:center; gap:40px; list-style:none; }
-.nav-bar ul li a { text-decoration:none; font-weight:600; color:#111; font-size:1.1rem; transition:color 0.3s; }
+.nav-bar ul li a { text-decoration:none; font-weight:600; color:#111111; font-size:1.1rem; transition:color 0.3s; font-family: 'Inter', sans-serif;}
 .nav-bar ul li a:hover, .nav-bar ul li a:focus { color:#f57a02; outline:none; }
 
 /* Main */
 main { flex:1; width:100%; max-width:1200px; margin:0 auto; padding:50px 20px; text-align:center; }
-main h1 { font-size:2.5rem; margin-bottom:50px; }
+main h1 { font-family:'Montserrat', sans-serif; font-size:2.5rem; margin-bottom:50px; color:#111111; font-weight:700; }
 
-section { margin-bottom:70px; background:transparent; box-shadow:none; }
+/* Sections */
+section { margin-bottom:70px; background:transparent; }
 
 /* Slider */
-.slider { position:relative; padding:40px 20px; border-radius:20px; max-width:700px; margin:0 auto 50px auto; }
-.slide { display:none; font-size:1.4rem; font-weight:500; }
+.slider { position:relative; padding:40px 20px; border-radius:20px; max-width:700px; margin:0 auto 30px auto; }
+.slide { display:none; font-size:1.4rem; font-weight:500; font-family:'Inter', sans-serif; color:#111111; }
 .slide.active { display:block; opacity:1; transition:opacity 0.6s ease-in-out; }
 
-/* From Uiverse.io by Z4drus (adapté avec le gradient Marketlify) */ 
-.button-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px;
-}
-
+/* Boutons 3D pour slider */
+.button-container { display:flex; justify-content:center; margin:20px; }
 .button-3d {
   -webkit-appearance: none;
   appearance: none;
@@ -72,7 +68,6 @@ section { margin-bottom:70px; background:transparent; box-shadow:none; }
   margin: 10px;
   border-radius: 20px;
 }
-
 .button-top {
   display: flex;
   align-items: center;
@@ -94,7 +89,6 @@ section { margin-bottom:70px; background:transparent; box-shadow:none; }
   border-radius: 20px;
   transition: transform 0.3s, border-radius 0.3s, background 0.5s;
 }
-
 .button-3d:active .button-top {
   border-radius: 10px 10px 8px 8px / 8px;
   transform: translateY(2px);
@@ -106,7 +100,6 @@ section { margin-bottom:70px; background:transparent; box-shadow:none; }
     rgba(245,140,2,1) 80%,
     rgba(245,87,2,1) 100%);
 }
-
 .button-bottom {
   position: absolute;
   z-index: 1;
@@ -127,7 +120,6 @@ section { margin-bottom:70px; background:transparent; box-shadow:none; }
   box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
   transition: border-radius 0.2s, padding-top 0.2s;
 }
-
 .button-base {
   position: absolute;
   z-index: 0;
@@ -141,41 +133,100 @@ section { margin-bottom:70px; background:transparent; box-shadow:none; }
     inset 0 2px 2px rgba(0, 0, 0, 0.25);
   transition: border-radius 0.2s, padding-top 0.2s;
 }
+.button-3d:active .button-bottom { border-radius: 10px 10px 8px 8px / 8px; padding-top: 0; }
+.button-3d:active .button-base { border-radius: 10px 10px 8px 8px / 8px; }
 
-.button-3d:active .button-bottom {
-  border-radius: 10px 10px 8px 8px / 8px;
-  padding-top: 0;
+/* Boutons spéciaux */
+.btn-buy {
+  padding: 14px 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #f57a02, #f58f2a);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-buy:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.btn-buy:active { transform: translateY(1px); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+
+.btn-light {
+  padding: 12px 22px;
+  background: transparent;
+  border: 2px solid #f57a02;
+  border-radius: 25px;
+  color: #f57a02;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-light:hover {
+  background: #f57a02;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(245,122,2,0.6);
 }
 
-.button-3d:active .button-base {
-  border-radius: 10px 10px 8px 8px / 8px;
+.btn-glow {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #f57a02;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+.btn-glow:hover {
+  box-shadow: 0 0 15px rgba(245,122,2,0.8), 0 0 30px rgba(245,122,2,0.5);
+  transform: scale(1.05);
+}
+
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #f57a02;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 15px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+.floating-btn:hover {
+  transform: scale(1.1);
+  background: #f58f2a;
 }
 
 /* Top Offres */
-.top-offres h2 { margin-bottom:30px; font-size:2rem; }
+.top-offres h2 { font-family:'Montserrat', sans-serif; margin-bottom:30px; font-size:2rem; color:#f57a02; }
 .offres-container { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; }
-.offre { background:transparent; padding:25px 20px; border-radius:15px; min-width:180px; box-shadow:none; transition:transform 0.3s; }
+.offre { background:#fff4; padding:25px 20px; border-radius:15px; min-width:180px; transition:transform 0.3s; font-family:'Inter', sans-serif; color:#111111; }
 .offre:hover { transform: translateY(-5px); }
-.offre button { margin-top:15px; padding:10px 15px; border:none; border-radius:8px; background-color:#f57a02; color:white; cursor:pointer; font-weight:600; }
-.offre button:hover { background-color:#f58f2a; }
+.offre img { width:100%; border-radius:10px; margin-bottom:10px; }
+.offre h3 { margin:5px 0; font-size:1.2rem; }
+.offre p { color:#444; }
 
 /* Newsletter */
 .newsletter { background:transparent; padding:40px 20px; border-radius:20px; box-shadow:none; max-width:600px; margin:0 auto; }
-.newsletter h2 { margin-bottom:20px; font-size:2rem; }
-.newsletter input { padding:12px 15px; border-radius:8px; border:1px solid #ccc; width:220px; margin-right:10px; font-size:1rem; }
-.newsletter button { padding:12px 20px; border:none; border-radius:8px; background-color:#f57a02; color:white; cursor:pointer; font-weight:600; }
-.newsletter button:hover { background-color:#f58f2a; }
+.newsletter h2 { margin-bottom:20px; font-size:2rem; font-family:'Montserrat', sans-serif; color:#f57a02;}
+.newsletter input { padding:12px 15px; border-radius:8px; border:1px solid #ccc; width:220px; margin-right:10px; font-size:1rem; font-family:'Inter', sans-serif; }
 
 /* Avis clients */
 .avis { background:transparent; padding:40px 20px; border-radius:20px; box-shadow:none; max-width:700px; margin:0 auto; }
-.avis h2 { font-size:2rem; margin-bottom:25px; }
-.avis p { font-size:1.2rem; margin-bottom:15px; }
+.avis h2 { font-size:2rem; margin-bottom:25px; font-family:'Montserrat', sans-serif; color:#f57a02; }
+.avis p { font-size:1.2rem; margin-bottom:15px; font-family:'Inter', sans-serif; color:#111111; }
 
 /* Footer */
-footer { background:transparent; color:#111; padding:40px 20px; text-align:center; font-size:0.95rem; }
+footer { background:transparent; color:#111111; padding:40px 20px; text-align:center; font-size:0.95rem; font-family:'Inter', sans-serif; }
 
 /* Responsive */
-@media(max-width:1024px){ .logo img{height:220px;} .nav-bar ul{gap:30px;} }
+@media(max-width:1024px){
+  .logo img{height:220px;} 
+  .nav-bar ul{gap:30px;} 
+}
 @media(max-width:768px){ 
   .logo img{height:160px;} 
   .nav-bar ul{flex-direction:column; gap:20px;} 
@@ -187,7 +238,6 @@ footer { background:transparent; color:#111; padding:40px 20px; text-align:cente
 </style>
 </head>
 <body>
-
 <div class="container">
 
   <!-- Header -->
@@ -216,27 +266,88 @@ footer { background:transparent; color:#111; padding:40px 20px; text-align:cente
       <div class="slide">Livraison gratuite pour toute commande supérieure à 50€ !</div>
       <div class="slide">Nouveau stock disponible pour vos produits préférés !</div>
 
-      <!-- Boutons 3D avec le même dégradé que la page -->
+      <!-- Boutons 3D -->
       <div class="button-container">
         <button class="button-3d" id="prevBtn" aria-label="Slide précédente">
-          <div class="button-top">
-            <span class="material-icons">❮</span>
-          </div>
+          <div class="button-top"><span>❮</span></div>
           <div class="button-bottom"></div>
           <div class="button-base"></div>
         </button>
         <button class="button-3d" id="nextBtn" aria-label="Slide suivante">
-          <div class="button-top">
-            <span class="material-icons">❯</span>
-          </div>
+          <div class="button-top"><span>❯</span></div>
           <div class="button-bottom"></div>
           <div class="button-base"></div>
         </button>
       </div>
     </section>
 
+    <!-- Bouton Découvrir -->
+    <button class="btn-light">✨ Découvrir nos offres</button>
+
     <!-- Top Offres -->
     <section class="top-offres">
       <h2>Top Offres</h2>
       <div class="offres-container">
-        <div class="
+        <div class="offre">
+          <img src="https://via.placeholder.com/150" alt="Produit A">
+          <h3>Produit A</h3>
+          <p>Prix : <b>29,99€</b></p>
+          <button class="btn-buy">🛒 Acheter maintenant</button>
+        </div>
+        <div class="offre">
+          <img src="https://via.placeholder.com/150" alt="Produit B">
+          <h3>Produit B</h3>
+          <p>Prix : <b>49,99€</b></p>
+          <button class="btn-buy">🛒 Acheter maintenant</button>
+        </div>
+        <div class="offre">
+          <img src="https://via.placeholder.com/150" alt="Produit C">
+          <h3>Produit C</h3>
+          <p>Prix : <b>19,99€</b></p>
+          <button class="btn-buy">🛒 Acheter maintenant</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+      <h2>Inscrivez-vous à notre newsletter</h2>
+      <input type="email" placeholder="Votre email">
+      <button class="btn-glow">📩 S'inscrire</button>
+    </section>
+
+    <!-- Avis clients -->
+    <section class="avis">
+      <h2>Avis clients</h2>
+      <p>"Très bon site, livraison rapide !" - Alice</p>
+      <p>"Produits de qualité et prix attractifs." - Karim</p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Marketlify. Tous droits réservés.
+  </footer>
+
+</div>
+
+<!-- Bouton flottant -->
+<a href="#" class="floating-btn">🛍</a>
+
+<script>
+/* Slider JS */
+let slides = document.querySelectorAll('.slide');
+let current = 0;
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  slides[current].classList.remove('active');
+  current = (current+1)%slides.length;
+  slides[current].classList.add('active');
+});
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  slides[current].classList.remove('active');
+  current = (current-1+slides.length)%slides.length;
+  slides[current].classList.add('active');
+});
+</script>
+</body>
+</html>
