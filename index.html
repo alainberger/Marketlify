@@ -1,301 +1,492 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marketlify</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<style>
-/* Reset global */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Marketlify</title>
+  <meta name="description" content="Marketlify — Réserve tes billets de concerts et spectacles facilement. Promotions, nouveautés, événements à ne pas manquer." />
+  <meta name="keywords" content="Marketlify, billets, concerts, spectacles, tickets, événements, promotions" />
+  <!-- Open Graph (pour partage) -->
+  <meta property="og:title" content="Marketlify — Billets de concerts & spectacles" />
+  <meta property="og:description" content="Réserve facilement tes billets de concerts et spectacles. Promotions et nouveautés." />
+  <meta property="og:image" content="https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png" type="image/png" />
 
-html, body {
-  height: 100%;
-  font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at center, 
-    rgba(245,87,2,1) 0%, 
-    rgba(245,120,2,1) 15%, 
-    rgba(245,140,2,1) 25%, 
-    rgba(245,170,100,1) 40%, 
-    rgba(238,174,202,1) 55%, 
-    rgba(202,179,214,1) 75%, 
-    rgba(148,201,233,1) 100%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  color: #111111;
-  line-height: 1.6;
-}
+  <!-- Polices -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-.container { display:flex; flex-direction:column; min-height:100vh; }
+  <style>
+    /* ===== Reset & root ===== */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg-start: #f57a02;      /* accent */
+      --bg-mid:   #eeb0d7;
+      --bg-end:   #94c9e9;
+      --glass: rgba(255,255,255,0.08);
+      --glass-strong: rgba(255,255,255,0.18);
+      --text: #0f1722;
+      --muted: #5b5b5b;
+      --card: rgba(255,255,255,0.95);
+      --radius: 14px;
+      --max-w: 1200px;
+    }
+    html,body{height:100%;font-family:'Inter',sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{
+      background: radial-gradient(circle at 40% 10%, var(--bg-start) 0%, rgba(245,120,2,1) 15%, rgba(245,140,2,1) 25%, rgba(245,170,100,1) 40%, var(--bg-mid) 55%, rgba(202,179,214,1) 75%, var(--bg-end) 100%);
+      min-height:100vh;padding-bottom:40px;
+    }
+    .wrap{max-width:var(--max-w);margin:0 auto;padding:18px}
 
-/* Header */
-header {
-  display:flex; flex-direction:column; align-items:center; padding:40px 20px; background:transparent;
-}
-.logo img { height:280px; width:auto; object-fit:contain; display:block; margin-bottom:20px; }
+    /* ===== Header ===== */
+    header.site-header{position:sticky;top:0;z-index:1200;background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));backdrop-filter: blur(6px);border-bottom:1px solid rgba(0,0,0,0.06)}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:56px;width:auto}
+    .brand h1{font-family:'Montserrat',sans-serif;font-size:1.1rem;color:#fff}
+    /* search + actions */
+    .controls{display:flex;align-items:center;gap:10px;flex:1;justify-content:flex-end}
+    .search{display:flex;align-items:center;gap:8px;background:linear-gradient(145deg,var(--bg-start),var(--bg-end));padding:6px;border-radius:999px;min-width:280px;max-width:520px}
+    .search input{border:0;background:transparent;outline:none;padding:8px 12px;color:#fff;font-weight:600}
+    .icon-btn{background:var(--glass);border:0;padding:8px 10px;border-radius:10px;color:#fff;cursor:pointer;font-weight:700}
+    .nav{display:flex;gap:14px;justify-content:center;padding:10px 8px}
+    .nav a{color:#fff;text-decoration:none;font-weight:700;padding:8px 12px;border-radius:8px}
+    .nav a:hover, .nav a[aria-current="page"]{background:rgba(255,255,255,0.05);color:#000}
 
-/* Barre de recherche */
-.search-bar {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:100%;
-  max-width:600px;
-  margin-bottom:20px;
-  background: linear-gradient(145deg,
-    rgba(245,87,2,1),
-    rgba(245,120,2,1),
-    rgba(245,140,2,1),
-    rgba(245,170,100,1),
-    rgba(238,174,202,1),
-    rgba(202,179,214,1),
-    rgba(148,201,233,1)
-  );
-  border-radius:30px;
-  padding:5px 10px;
-}
-.search-bar input {
-  flex:1;
-  border:none;
-  border-radius:30px;
-  padding:12px 20px;
-  font-size:1rem;
-  font-family:'Montserrat', sans-serif;
-  outline:none;
-}
-.search-bar button {
-  border:none;
-  background:transparent;
-  cursor:pointer;
-  margin-left:10px;
-}
-.search-bar button svg { width:24px; height:24px; }
+    /* ===== Hero / Main ===== */
+    main{padding:20px 0}
+    .hero{display:flex;gap:18px;align-items:stretch;flex-wrap:wrap}
+    .hero-left{flex:1;min-width:260px;padding:18px;border-radius:18px;background:var(--glass-strong);color:#fff}
+    .hero-right{width:300px;min-width:240px;padding:16px;border-radius:14px;background:var(--card);box-shadow:0 12px 36px rgba(0,0,0,0.12)}
+    .hero h2{font-family:'Montserrat';font-size:1.6rem;margin-bottom:8px}
+    .muted{color:rgba(0,0,0,0.55)}
+    .cta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+    .btn{background:linear-gradient(145deg,var(--bg-start),var(--bg-end));color:#fff;padding:10px 14px;border-radius:12px;border:0;cursor:pointer;font-weight:800}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.12);color:#fff}
 
-/* Dashboard */
-.dashboard {
-  display:flex;
-  justify-content:space-evenly;
-  align-items:center;
-  width:100%;
-  background: rgba(255,255,255,0.15);
-  padding:12px 0;
-  border-radius:10px;
-  margin-bottom:40px;
-  font-family:'Montserrat', sans-serif;
-  font-weight:600;
-  color:#fff;
-}
-.dashboard span { cursor:pointer; transition:0.3s; }
-.dashboard span:hover { color:#f57a02; }
+    /* ===== Filters & results ===== */
+    .grid{display:grid;grid-template-columns:300px 1fr;gap:18px;margin-top:18px}
+    aside.filters{background:var(--glass);padding:14px;border-radius:12px;color:#fff}
+    .filter-group{margin-bottom:12px}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.06);cursor:pointer;font-weight:700}
+    .chip.active{background:#fff;color:var(--text)}
+    .events{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
 
-/* Main */
-main { flex:1; width:100%; max-width:1200px; margin:0 auto; padding:20px; text-align:center; }
+    .card{background:#fff;border-radius:12px;padding:12px;color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+    .card img{width:100%;height:140px;object-fit:cover;border-radius:8px;margin-bottom:8px}
+    .card h3{font-size:1rem;margin-bottom:6px}
+    .meta{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:0.9rem;margin-bottom:6px}
+    .badge{display:inline-block;padding:6px 8px;border-radius:8px;background:var(--bg-start);color:#fff;font-weight:800;font-size:0.85rem}
 
-/* Slider */
-.slider { position:relative; padding:40px 20px; border-radius:20px; max-width:700px; margin:0 auto 30px auto; }
-.slide { display:none; font-size:1.4rem; font-weight:500; font-family:'Inter', sans-serif; color:#111111; }
-.slide.active { display:block; opacity:1; transition:opacity 0.6s ease-in-out; }
+    /* ===== Popular horizontal ===== */
+    .popular{margin-top:12px;padding:10px;border-radius:12px;background:rgba(255,255,255,0.06);color:#fff}
+    .popular-list{display:flex;gap:12px;overflow:auto;padding:8px}
+    .popular-item{min-width:220px;background:#fff;padding:8px;border-radius:10px;color:var(--text);box-shadow:0 6px 18px rgba(0,0,0,0.06)}
 
-/* Boutons 3D pour slider */
-.button-container { display:flex; justify-content:center; margin:20px; }
-.button-3d {
-  -webkit-appearance: none;
-  appearance: none;
-  position: relative;
-  border-width: 0;
-  padding: 0 8px;
-  min-width: 4em;
-  min-height: 4em;
-  box-sizing: border-box;
-  background: transparent;
-  font: inherit;
-  cursor: pointer;
-  margin: 10px;
-  border-radius: 20px;
-}
-.button-top {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-  padding: 8px 16px;
-  transform: translateY(0);
-  color: #fff;
-  background-image: linear-gradient(145deg,
-    rgba(245,87,2,1) 10.5%,
-    rgba(245,120,2,1) 16%,
-    rgba(245,140,2,1) 17.5%,
-    rgba(245,170,100,1) 25%,
-    rgba(238,174,202,1) 40%,
-    rgba(202,179,214,1) 65%,
-    rgba(148,201,233,1) 100%);
-  text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-  transition: transform 0.3s, border-radius 0.3s, background 0.5s;
-}
-.button-3d:active .button-top {
-  border-radius: 10px 10px 8px 8px / 8px;
-  transform: translateY(2px);
-  background-image: linear-gradient(145deg,
-    rgba(148,201,233,1) 0%,
-    rgba(202,179,214,1) 25%,
-    rgba(238,174,202,1) 40%,
-    rgba(245,170,100,1) 60%,
-    rgba(245,140,2,1) 80%,
-    rgba(245,87,2,1) 100%);
-}
-.button-bottom {
-  position: absolute;
-  z-index: 1;
-  bottom: 4px;
-  left: 4px;
-  border-radius: 20px;
-  padding-top: 6px;
-  width: calc(100% - 8px);
-  height: calc(100% - 10px);
-  background-image: linear-gradient(145deg,
-    rgba(245,87,2,1) 10.5%,
-    rgba(245,120,2,1) 16%,
-    rgba(245,140,2,1) 17.5%,
-    rgba(245,170,100,1) 25%,
-    rgba(238,174,202,1) 40%,
-    rgba(202,179,214,1) 65%,
-    rgba(148,201,233,1) 100%);
-  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
-  transition: border-radius 0.2s, padding-top 0.2s;
-}
-.button-base {
-  position: absolute;
-  z-index: 0;
-  top: 4px;
-  left: 0;
-  border-radius: 20px;
-  width: 100%;
-  height: calc(100% - 4px);
-  background-color: rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.75),
-    inset 0 2px 2px rgba(0, 0, 0, 0.25);
-  transition: border-radius 0.2s, padding-top 0.2s;
-}
-.button-3d:active .button-bottom { border-radius: 10px 10px 8px 8px / 8px; padding-top: 0; }
-.button-3d:active .button-base { border-radius: 10px 10px 8px 8px / 8px; }
+    /* ===== Testimonials / Newsletter / FAQ ===== */
+    .testimonials{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .testimonial{background:#fff;padding:12px;border-radius:12px;max-width:300px;color:var(--text)}
+    .newsletter{margin-top:18px;background:#fff;padding:14px;border-radius:12px;display:flex;gap:8px;align-items:center;justify-content:center}
+    .newsletter input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
+    .faq-item{background:#fff;padding:12px;border-radius:10px;margin-bottom:8px;cursor:pointer}
 
-/* Bouton Découvrir Articles */
-.btn-discover {
-  margin:30px auto;
-  display:inline-block;
-  padding:14px 28px;
-  font-family:'Montserrat', sans-serif;
-  font-weight:600;
-  font-size:1.2rem;
-  color:#fff;
-  background-image: linear-gradient(145deg,
-    rgba(245,87,2,1),
-    rgba(245,120,2,1),
-    rgba(245,140,2,1),
-    rgba(245,170,100,1),
-    rgba(238,174,202,1),
-    rgba(202,179,214,1),
-    rgba(148,201,233,1)
-  );
-  border:none;
-  border-radius:25px;
-  cursor:pointer;
-  text-align:center;
-}
+    /* ===== Footer ===== */
+    footer.site-footer{margin-top:18px;padding:18px;border-radius:12px;background:rgba(255,255,255,0.06);text-align:center;color:#fff}
+    footer a{color:#fff;text-decoration:underline}
 
-/* Footer */
-footer { background:transparent; color:#111111; padding:40px 20px; text-align:center; font-size:0.95rem; font-family:'Inter', sans-serif; }
+    /* ===== Cookie banner ===== */
+    .cookie-banner{position:fixed;left:12px;right:12px;bottom:12px;background:#fff;padding:12px;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,0.2);display:flex;gap:10px;align-items:center;justify-content:space-between;z-index:2000}
 
-/* Responsive */
-@media(max-width:1024px){
-  .logo img{height:220px;} 
-}
-@media(max-width:768px){ 
-  .logo img{height:160px;} 
-  .dashboard { font-size:0.9rem; }
-}
-</style>
+    /* ===== Responsive ===== */
+    @media(max-width:980px){ .grid{grid-template-columns:1fr} .hero-right{width:100%} .search{min-width:180px} .brand h1{font-size:1rem} }
+    @media(max-width:480px){ .brand img{height:44px} .controls{justify-content:flex-end} .nav{overflow:auto;padding-left:8px} }
+  </style>
 </head>
 <body>
-<div class="container">
+  <div class="wrap">
 
-  <!-- Header -->
-  <header>
-    <div class="logo">
-      <img src="https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png" alt="Marketlify" role="banner">
-    </div>
+    <!-- HEADER -->
+    <header class="site-header" role="banner" aria-label="En-tête Marketlify">
+      <div class="topbar">
+        <div class="brand" aria-hidden="false">
+          <img src="https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png" alt="Logo Marketlify">
+          <h1>Marketlify</h1>
+        </div>
 
-    <!-- Barre de recherche -->
-    <div class="search-bar">
-      <input type="text" placeholder="Recherché sur Marketlify...">
-      <button aria-label="Rechercher">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/></svg>
-      </button>
-    </div>
+        <div class="controls" role="search">
+          <div class="search" aria-label="Recherche Marketlify">
+            <input id="searchInput" list="suggestions" placeholder="Rechercher artiste, ville, événement..." aria-label="Recherche">
+            <datalist id="suggestions">
+              <option value="Maitre Gims - Paris"></option>
+              <option value="Rock Festival Lyon"></option>
+              <option value="Théâtre Comédie - Marseille"></option>
+            </datalist>
+            <button id="searchBtn" class="icon-btn" aria-label="Lancer la recherche">🔍</button>
+          </div>
 
-    <!-- Dashboard -->
-    <div class="dashboard">
-      <span>Accueil</span>
-      <span>Promotions</span>
-      <span>Nouveautés</span>
-      <span>Catégories</span>
-      <span>Contact</span>
-    </div>
-
-  </header>
-
-  <!-- Main -->
-  <main>
-    <!-- Slider -->
-    <section class="slider" aria-label="Promotions en cours">
-      <div class="slide active">Slide 1</div>
-      <div class="slide">Slide 2</div>
-      <div class="slide">Slide 3</div>
-
-      <!-- Boutons 3D -->
-      <div class="button-container">
-        <button class="button-3d" id="prevBtn" aria-label="Slide précédente">
-          <div class="button-top"><span>❮</span></div>
-          <div class="button-bottom"></div>
-          <div class="button-base"></div>
-        </button>
-        <button class="button-3d" id="nextBtn" aria-label="Slide suivante">
-          <div class="button-top"><span>❯</span></div>
-          <div class="button-bottom"></div>
-          <div class="button-base"></div>
-        </button>
+          <button id="themeToggle" class="icon-btn" aria-pressed="false" title="Activer/Désactiver le mode sombre">🌙</button>
+          <button id="accountBtn" class="icon-btn" title="Mon compte">Mon compte</button>
+        </div>
       </div>
-    </section>
 
-    <!-- Bouton Découvrir Articles -->
-    <button class="btn-discover">Découvrir nos articles</button>
+      <nav class="nav" role="navigation" aria-label="Menu principal">
+        <a href="#home" aria-current="page">Accueil</a>
+        <a href="#promos">Promotions</a>
+        <a href="#nouvelles">Nouveautés</a>
+        <a href="#categories">Catégories</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
 
-  </main>
+    <!-- MAIN -->
+    <main id="home" role="main">
+      <section class="hero" aria-label="Présentation">
+        <div class="hero-left" role="region" aria-labelledby="heroTitle">
+          <h2 id="heroTitle">Tes billets de concert & spectacles — en 2 clics</h2>
+          <p class="muted">Recherche intelligente, promotions exclusives et billets électroniques envoyés par email.</p>
+          <div class="cta">
+            <button class="btn" id="discoverBtn">🎫 Parcourir les billets</button>
+            <button class="btn ghost" id="subscribeBtn">✉️ S'inscrire aux offres</button>
+            <span class="badge" title="Livraison rapide">Paiement sécurisé</span>
+          </div>
+          <div style="margin-top:12px;color:#fff;font-weight:700">Disponible dans plusieurs villes — Paris, Lyon, Marseille...</div>
+        </div>
 
-  <!-- Footer -->
-  <footer>
-    © 2025 Marketlify. Tous droits réservés.
-  </footer>
+        <aside class="hero-right" role="complementary" aria-label="Prochains concerts">
+          <strong id="nextEventTitle">Maitre Gims — Paris La Défense Arena</strong>
+          <div class="muted" style="margin-bottom:8px">Samedi 20 décembre 2025 — Paris</div>
+          <div style="font-weight:800;color:var(--bg-start)" id="countdown">Chargement…</div>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button class="btn" id="buyNow">Acheter</button>
+            <button class="btn ghost" id="addCalendar">Ajouter au calendrier</button>
+          </div>
+        </aside>
+      </section>
 
-</div>
+      <!-- Grid: filters + events -->
+      <section class="grid" aria-label="Recherche d'événements">
+        <!-- Filters -->
+        <aside class="filters" aria-label="Filtres">
+          <div class="filter-group">
+            <label for="city">Ville</label>
+            <input id="city" placeholder="Paris, Lyon..." aria-label="Ville" style="width:100%;padding:8px;border-radius:8px;border:0">
+          </div>
 
-<script>
-/* Slider JS */
-let slides = document.querySelectorAll('.slide');
-let current = 0;
-document.getElementById('nextBtn').addEventListener('click', ()=>{
-  slides[current].classList.remove('active');
-  current = (current+1)%slides.length;
-  slides[current].classList.add('active');
-});
-document.getElementById('prevBtn').addEventListener('click', ()=>{
-  slides[current].classList.remove('active');
-  current = (current-1+slides.length)%slides.length;
-  slides[current].classList.add('active');
-});
-</script>
+          <div class="filter-group">
+            <label>Catégorie</label>
+            <div class="chips" id="categoryChips">
+              <div class="chip active" data-cat="">Tous</div>
+              <div class="chip" data-cat="concert">Concerts</div>
+              <div class="chip" data-cat="theatre">Théâtre</div>
+              <div class="chip" data-cat="comedy">Humour</div>
+              <div class="chip" data-cat="festival">Festival</div>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Prix (€)</label>
+            <div style="display:flex;gap:8px">
+              <input id="minPrice" type="number" placeholder="Min" style="padding:8px;border-radius:8px;border:0">
+              <input id="maxPrice" type="number" placeholder="Max" style="padding:8px;border-radius:8px;border:0">
+            </div>
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="applyFilters" class="btn" style="flex:1">Appliquer</button>
+            <button id="resetFilters" class="btn ghost" style="flex:1">Réinitialiser</button>
+          </div>
+
+          <hr style="border:none;height:1px;background:rgba(0,0,0,0.06);margin:12px 0">
+
+          <div style="font-weight:700;margin-bottom:6px">Partager</div>
+          <div style="display:flex;gap:8px">
+            <a href="#" aria-label="Partager Facebook">🔵</a>
+            <a href="#" aria-label="Partager Instagram">📸</a>
+            <a href="#" aria-label="Partager X">🐦</a>
+          </div>
+        </aside>
+
+        <!-- Results -->
+        <section aria-label="Résultats">
+          <div class="popular" id="promos">
+            <h3 style="margin:0 0 8px 0;color:#fff">Tendances</h3>
+            <div class="popular-list" id="popularList" tabindex="0"></div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+            <div><strong id="resultCount">0</strong> événements</div>
+            <div>
+              Trier :
+              <select id="sortSelect" aria-label="Trier les résultats" style="padding:6px;border-radius:8px">
+                <option value="soon">Proche</option>
+                <option value="price-asc">Prix ↑</option>
+                <option value="price-desc">Prix ↓</option>
+                <option value="popular">Popularité</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="events" id="eventsGrid" style="margin-top:12px"></div>
+
+          <!-- Testimonials -->
+          <div class="testimonials" aria-label="Avis clients" style="margin-top:18px">
+            <div class="testimonial"><strong>★★★★★ — Super !</strong><div class="muted">Billets reçus immédiatement. — Clara, Paris</div></div>
+            <div class="testimonial"><strong>★★★★☆ — Bien</strong><div class="muted">Interface simple, bon SAV. — Ahmed, Lyon</div></div>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="newsletter" aria-label="Newsletter" style="margin-top:18px">
+            <input id="newsletterEmail" type="email" placeholder="Ton email">
+            <button id="newsletterBtn" class="btn">S'inscrire</button>
+          </div>
+
+          <!-- FAQ -->
+          <div style="margin-top:16px">
+            <h3>FAQ</h3>
+            <div class="faq-item" data-open="false">Comment reçois-je mon billet ?<div class="muted" style="display:none;margin-top:6px">Ton billet est envoyé par email sous forme de PDF avec QR-code.</div></div>
+            <div class="faq-item" data-open="false">Politique de remboursement<div class="muted" style="display:none;margin-top:6px">Voir la page CGV en bas du site pour les conditions.</div></div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Categories / Promos / Blog teaser -->
+      <section id="categories" class="section" aria-label="Catégories">
+        <h2>Catégories</h2>
+        <div class="cards">
+          <div class="card" role="article"><img loading="lazy" src="https://picsum.photos/seed/concert/400/250" alt="Concerts"><h3>Concerts</h3><p>Rock, pop, hip-hop — tous les styles.</p></div>
+          <div class="card" role="article"><img loading="lazy" src="https://picsum.photos/seed/theatre/400/250" alt="Théâtre"><h3>Théâtre</h3><p>Pièces & comédies pour toute la famille.</p></div>
+          <div class="card" role="article"><img loading="lazy" src="https://picsum.photos/seed/festival/400/250" alt="Festivals"><h3>Festivals</h3><p>Événements sur plusieurs jours.</p></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer" role="contentinfo" aria-label="Pied de page">
+      <p>© 2025 Marketlify — Tous droits réservés.</p>
+      <p><a href="#legal" id="legalLink">Mentions légales</a> • <a href="#cgv" id="cgvLink">CGV</a> • <a href="#privacy" id="privacyLink">Politique de confidentialité</a></p>
+      <p class="muted">Site maquette — pour la production, connecter les paiements & serveurs.</p>
+    </footer>
+
+  </div>
+
+  <!-- Cookie banner (RGPD) -->
+  <div id="cookieBanner" class="cookie-banner" role="dialog" aria-live="polite" style="display:none">
+    <div style="flex:1">
+      <strong>Nous utilisons des cookies</strong>
+      <div class="muted">Pour améliorer votre expérience et envoyer des offres.</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button id="acceptCookies" class="btn">Accepter</button>
+      <button id="manageCookies" class="btn ghost">Paramètres</button>
+    </div>
+  </div>
+
+  <!-- Modal simple (achats simulés) -->
+  <div id="modalBackdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:2000">
+    <div style="background:#fff;padding:16px;border-radius:12px;max-width:520px;width:96%">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong id="modalTitle">Acheter</strong>
+        <button id="closeModal" style="background:transparent;border:0;font-weight:800;cursor:pointer">✕</button>
+      </div>
+      <div id="modalBody" style="margin-top:8px">Sélectionnez quantité et payez (simulation).</div>
+    </div>
+  </div>
+
+  <!-- JSON-LD minimal sample -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"Marketlify","url":"https://marketlify-shopping.netlify.app/"}
+  </script>
+
+  <!-- ===== JS (interactions front-end) ===== -->
+  <script>
+    /* ---------- Data (sample events) ---------- */
+    const EVENTS = [
+      {id:1,title:"Maitre Gims - Paris La Défense",city:"Paris",date:"2025-12-20T20:00:00",price:45,category:"concert",img:"https://picsum.photos/seed/gims/600/400",pop:95,stock:12,desc:"Concert hip-hop & pop."},
+      {id:2,title:"Rock Night - Lyon",city:"Lyon",date:"2025-10-02T19:00:00",price:30,category:"concert",img:"https://picsum.photos/seed/rock/600/400",pop:80,stock:4,desc:"Les meilleurs groupes locaux."},
+      {id:3,title:"Théâtre Comédie - Marseille",city:"Marseille",date:"2025-09-15T20:30:00",price:25,category:"theatre",img:"https://picsum.photos/seed/theatre/600/400",pop:70,stock:20,desc:"Pièce comique familiale."},
+      {id:4,title:"Festival Jazz - Bordeaux",city:"Bordeaux",date:"2025-11-10T18:00:00",price:60,category:"festival",img:"https://picsum.photos/seed/jazz/600/400",pop:85,stock:50,desc:"3 jours de jazz."},
+      {id:5,title:"Stand-up Night - Toulouse",city:"Toulouse",date:"2025-09-25T21:00:00",price:20,category:"comedy",img:"https://picsum.photos/seed/comedy/600/400",pop:65,stock:6,desc:"Soirée stand-up"}
+    ];
+
+    /* ---------- Helpers ---------- */
+    const $ = sel=>document.querySelector(sel);
+    const $$ = sel=>Array.from(document.querySelectorAll(sel));
+
+    /* ---------- Render popular ---------- */
+    function renderPopular(){
+      const el = $('#popularList'); el.innerHTML='';
+      EVENTS.slice().sort((a,b)=>b.pop-a.pop).slice(0,6).forEach(e=>{
+        const d = document.createElement('div'); d.className='popular-item';
+        d.innerHTML = `<img src="${e.img}" alt="${e.title}" style="width:100%;height:100px;object-fit:cover;border-radius:6px"><div style="font-weight:800;margin-top:6px">${e.title}</div><div class="muted" style="font-size:0.85rem">${new Date(e.date).toLocaleString()}</div><div style="margin-top:6px"><button class="btn small" data-id="${e.id}" style="padding:6px 8px">Voir</button></div>`;
+        el.appendChild(d);
+      });
+    }
+
+    /* ---------- Render events grid ---------- */
+    function renderEvents(list){
+      const grid = $('#eventsGrid'); grid.innerHTML='';
+      if(!list.length){ grid.innerHTML='<div class="muted">Aucun événement trouvé.</div>'; $('#resultCount').textContent='0'; return; }
+      $('#resultCount').textContent = list.length;
+      list.forEach(e=>{
+        const card = document.createElement('article'); card.className='card';
+        card.innerHTML = `<img loading="lazy" src="${e.img}" alt="${e.title}"><div class="meta"><span>${e.city}</span><span>${e.price}€</span></div><h3>${e.title}</h3><p class="muted" style="margin-bottom:8px">${new Date(e.date).toLocaleString()}</p><p style="margin-bottom:8px">${e.desc}</p><div style="display:flex;justify-content:space-between;gap:8px"><button class="btn" data-id="${e.id}">Voir</button><button class="btn ghost" data-share="${e.id}">Partager</button></div></article>`;
+        grid.appendChild(card);
+      });
+    }
+
+    /* ---------- Initial render ---------- */
+    renderPopular();
+    renderEvents(EVENTS);
+
+    /* ---------- Filters / Search ---------- */
+    $('#searchBtn').addEventListener('click', ()=> applyFilters());
+    $('#discoverBtn').addEventListener('click', ()=> location.hash='#categories');
+
+    $$('#categoryChips .chip').forEach(chip=>{
+      chip.addEventListener('click', ()=>{
+        $$('#categoryChips .chip').forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active');
+      });
+    });
+
+    $('#applyFilters')?.addEventListener('click', applyFilters);
+    $('#resetFilters')?.addEventListener('click', ()=>{
+      $('#city').value='';$('#minPrice').value='';$('#maxPrice').value=''; $$('#categoryChips .chip').forEach(c=>c.classList.remove('active')); $$('#categoryChips .chip')[0].classList.add('active'); renderEvents(EVENTS);
+    });
+
+    function applyFilters(){
+      const q = $('#searchInput').value.trim().toLowerCase();
+      const city = $('#city').value.trim().toLowerCase();
+      const cat = document.querySelector('#categoryChips .chip.active')?.dataset.cat || '';
+      const min = parseFloat($('#minPrice').value)||0;
+      const max = parseFloat($('#maxPrice').value)||Infinity;
+      const sort = $('#sortSelect').value;
+      let res = EVENTS.slice().filter(e=>{
+        if(q && !(e.title.toLowerCase().includes(q) || e.desc.toLowerCase().includes(q))) return false;
+        if(city && !e.city.toLowerCase().includes(city)) return false;
+        if(cat && e.category!==cat) return false;
+        if(e.price < min || e.price > max) return false;
+        return true;
+      });
+      if(sort==='price-asc') res.sort((a,b)=>a.price-b.price);
+      if(sort==='price-desc') res.sort((a,b)=>b.price-a.price);
+      if(sort==='soon') res.sort((a,b)=> new Date(a.date)-new Date(b.date));
+      if(sort==='popular') res.sort((a,b)=> b.pop-a.pop);
+      renderEvents(res);
+    }
+
+    /* ---------- Delegation: open modal / share ---------- */
+    document.body.addEventListener('click', (e)=>{
+      const v = e.target;
+      if(v.matches('button[data-id]')) openModal(parseInt(v.dataset.id));
+      if(v.matches('button[data-share]')) shareEvent(parseInt(v.dataset.share));
+    });
+
+    function openModal(id){
+      const ev = EVENTS.find(x=>x.id===id); if(!ev) return;
+      $('#modalTitle').textContent = 'Acheter — ' + ev.title;
+      $('#modalBody').innerHTML = `<p style="margin:6px 0">${ev.title} — ${new Date(ev.date).toLocaleString()}</p><label>Quantité</label><select id="qty"><option>1</option><option>2</option><option>3</option></select><div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end"><button id="cancelBuy" class="btn ghost">Annuler</button><button id="confirmBuy" class="btn">Confirmer</button></div>`;
+      $('#modalBackdrop').style.display='flex';
+      $('#cancelBuy').onclick = ()=> $('#modalBackdrop').style.display='none';
+      $('#confirmBuy').onclick = ()=> { alert('Achat simulé — merci (simulation).'); $('#modalBackdrop').style.display='none'; };
+      $('#closeModal').onclick = ()=> $('#modalBackdrop').style.display='none';
+    }
+
+    function shareEvent(id){
+      const ev = EVENTS.find(x=>x.id===id);
+      if(navigator.share){
+        navigator.share({title:ev.title,text:ev.desc,url:location.href});
+      } else {
+        alert('Partage : ' + ev.title + ' (copier le lien manuellement)');
+      }
+    }
+
+    /* ---------- Countdown for first event ---------- */
+    function startCountdown(iso, el){
+      function update(){
+        const diff = new Date(iso) - new Date();
+        if(diff<=0){ el.textContent='Événement en cours/terminé'; return; }
+        const d = Math.floor(diff/86400000);
+        const h = Math.floor((diff%86400000)/3600000);
+        const m = Math.floor((diff%3600000)/60000);
+        const s = Math.floor((diff%60000)/1000);
+        el.textContent = `${d}j ${h}h ${m}m ${s}s`;
+      }
+      update(); setInterval(update,1000);
+    }
+    startCountdown(EVENTS[0].date, $('#countdown'));
+
+    /* ---------- FAQ toggle ---------- */
+    $$('.faq-item').forEach(item=>{
+      item.addEventListener('click', ()=>{
+        const open = item.getAttribute('data-open') === 'true';
+        const detail = item.querySelector('.muted');
+        if(detail) detail.style.display = open ? 'none' : 'block';
+        item.setAttribute('data-open', (!open).toString());
+      });
+    });
+
+    /* ---------- Newsletter ---------- */
+    $('#newsletterBtn').addEventListener('click', ()=>{
+      const email = $('#newsletterEmail').value.trim();
+      if(!email) return alert('Entre ton email');
+      alert(`OK — ${email} inscrit(e) (simulation).`);
+      $('#newsletterEmail').value='';
+    });
+
+    /* ---------- Cookie banner (RGPD) ---------- */
+    function showCookieBanner(){
+      if(localStorage.getItem('marketlifyCookies')!=='accepted'){
+        $('#cookieBanner').style.display='flex';
+      }
+    }
+    $('#acceptCookies').addEventListener('click', ()=>{
+      localStorage.setItem('marketlifyCookies','accepted'); $('#cookieBanner').style.display='none';
+    });
+    $('#manageCookies').addEventListener('click', ()=> alert('Gestion des cookies (simulation)'));
+    showCookieBanner();
+
+    /* ---------- Theme toggle (light/dark simple) ---------- */
+    const themeBtn = $('#themeToggle');
+    let dark = false;
+    themeBtn.addEventListener('click', ()=>{
+      dark = !dark;
+      if(dark){
+        document.documentElement.style.setProperty('--bg-start','#0f1722');
+        document.documentElement.style.setProperty('--bg-mid','#051028');
+        document.body.style.background = '#071124';
+        themeBtn.textContent = '☀️';
+        themeBtn.setAttribute('aria-pressed','true');
+      } else {
+        document.documentElement.style.setProperty('--bg-start','#f57a02');
+        document.documentElement.style.setProperty('--bg-mid','#eeb0d7');
+        document.body.style.background = 'radial-gradient(circle at 40% 10%, var(--bg-start) 0%, rgba(245,120,2,1) 15%, rgba(245,140,2,1) 25%, rgba(245,170,100,1) 40%, var(--bg-mid) 55%, rgba(202,179,214,1) 75%, var(--bg-end) 100%)';
+        themeBtn.textContent = '🌙';
+        themeBtn.setAttribute('aria-pressed','false');
+      }
+    });
+
+    /* ---------- small UX helpers ---------- */
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ $('#modalBackdrop').style.display='none'; $('#cookieBanner').style.display='none'; } });
+
+    /* ---------- On load: maybe low stock popup example ---------- */
+    window.addEventListener('load', ()=>{
+      const low = EVENTS.find(e=> e.stock>0 && e.stock<=6);
+      if(low){
+        // show a subtle alert (not disruptive)
+        console.info('Stock bas :', low.title, low.stock);
+      }
+    });
+  </script>
+
+  <!-- ===== NOTES & next steps (non-executed comments) =====
+    - Pour production : séparer CSS/JS dans files style.css / app.js
+    - Connecter paiement (Stripe / PayPal) côté serveur.
+    - Implémenter authentification / espace client (Auth0 / Firebase).
+    - Générer sitemap.xml et robots.txt sur ton déploiement.
+    - Ajouter Google Analytics / Matomo côté serveur si tu veux tracker.
+  ============================================================ -->
 </body>
 </html>
