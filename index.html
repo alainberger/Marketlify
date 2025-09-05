@@ -1,549 +1,391 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="fr" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Marketlify</title>
-  <meta name="description" content="Marketlify — Réserve tes billets de concerts et spectacles rapidement. Promotions, prochains événements et billets électroniques." />
-  <meta name="keywords" content="Marketlify, billets, concerts, spectacles, tickets, événements" />
-  <link rel="icon" href="https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png" type="image/png">
-  <meta property="og:title" content="Marketlify — Billets de concerts & spectacles" />
-  <meta property="og:description" content="Réserve facilement tes billets de concerts et spectacles. Promotions & nouveautés." />
-  <meta property="og:image" content="https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png" />
-  <meta property="og:type" content="website" />
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
-
+  <title>MarketLify — Billetterie</title>
+  <meta name="description" content="MarketLify : billetterie moderne pour concerts, spectacles, festivals et sports." />
+  <meta name="theme-color" content="#0aaeef" />
   <style>
-    /* ---------------- Reset & root ---------------- */
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    /* ===== Design tokens (originaux) ===== */
     :root{
-      --accent:#f57a02;
-      --accent-2:#94c9e9;
-      --glass:rgba(255,255,255,0.08);
-      --bg:#071124; /* dark fallback used when dark mode enabled */
-      --card-bg:#ffffff;
-      --text-dark:#0f1722;
-      --muted:#6b7280;
-      --radius:12px;
-      --maxw:1100px;
-      --mobile-padding:14px;
+      --brand-50:#ecfbff; --brand-100:#d7f5ff; --brand-200:#b9ecff; --brand-300:#8fe0ff;
+      --brand-400:#5dd2fb; --brand-500:#21c1f3; --brand-600:#0aaeef; --brand-700:#078fc2;
+      --brand:#0aaeef; --accent:#7a5cf0; --ok:#16a34a; --warn:#f59e0b; --danger:#ef4444;
+      --bg:#ffffff; --ink:#0b1220; --muted:#475569; --panel:#f8fafc; --line:#e2e8f0;
+      --radius:12px; --shadow:0 10px 30px rgba(0,0,0,.08);
     }
-    html,body{height:100%;-webkit-font-smoothing:antialiased;font-family:'Inter',sans-serif;background:linear-gradient(180deg, rgba(245,87,2,0.12), rgba(148,201,233,0.08));color:var(--text-dark);overflow-x:hidden}
-    body{margin:0;padding:0;min-height:100vh}
-    .app{max-width:var(--maxw);margin:0 auto;padding:var(--mobile-padding)}
+    [data-theme="dark"]{
+      --bg:#0b1220; --ink:#e5e7eb; --muted:#9ca3af; --panel:#0f172a; --line:#1f2937;
+      --shadow:0 12px 34px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial; background:linear-gradient(180deg,var(--bg),var(--panel)); color:var(--ink)}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:1280px;margin:0 auto;padding:0 16px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:#fff}
+    [data-theme="dark"] .btn{background:#0b1220}
+    .btn--ghost{background:transparent}
+    .btn--brand{background:linear-gradient(180deg,var(--brand-400),var(--brand-600));color:#001018;border-color:transparent}
+    .chip{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:transparent}
 
-    /* ---------------- Header ---------------- */
-    header.app-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;position:sticky;top:0;background:rgba(255,255,255,0.02);backdrop-filter:blur(6px);z-index:1200}
+    /* ===== Header étage 1 (utilitaires) ===== */
+    .topbar{background:var(--panel);border-bottom:1px solid var(--line);font-size:13px}
+    .topbar__row{height:36px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .topbar__left,.topbar__right{display:flex;align-items:center;gap:12px}
+    .select{display:flex;align-items:center;gap:6px;border:1px solid var(--line);padding:4px 8px;border-radius:8px;background:#fff}
+    [data-theme="dark"] .select{background:#0b1220}
+    .select select{all:unset;font-size:13px}
+
+    /* ===== Header étage 2 (principal) ===== */
+    .mainbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+    [data-theme="dark"] .mainbar{background:rgba(11,18,32,.75)}
+    .mainbar__row{height:72px;display:flex;align-items:center;gap:12px}
     .brand{display:flex;align-items:center;gap:10px}
-    .brand img{height:44px;width:auto}
-    .brand h1{font-family:'Montserrat',sans-serif;font-size:1.05rem;color:var(--text-dark)}
-    .hamburger{display:flex;flex-direction:column;gap:3px;cursor:pointer}
-    .hamburger span{width:22px;height:2px;background:var(--text-dark);display:block;border-radius:2px}
+    .brand__logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 180deg,var(--brand),#22d3ee,var(--accent),var(--brand));box-shadow:var(--shadow)}
+    .brand__wordmark{position:relative;display:inline-flex;flex-direction:column;align-items:center;line-height:1}
+    .brand__name{font-weight:900;letter-spacing:.2px}
+    /* —— Chevron original sous le mot-symbole —— */
+    .brand__chevron{
+      width:56%; height:3px; margin-top:3px; border-radius:999px;
+      background:linear-gradient(90deg,var(--brand),var(--accent));
+      position:relative; transform-origin:center; transition:transform .15s ease, filter .15s ease;
+      filter:drop-shadow(0 1px 0 rgba(0,0,0,.08));
+    }
+    /* petites pointes pour un effet chevron, sans copier personne */
+    .brand__chevron::before,.brand__chevron::after{
+      content:""; position:absolute; top:-3px; width:8px; height:8px; border-radius:2px;
+      transform:rotate(45deg);
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      opacity:.9;
+    }
+    .brand__chevron::before{left:-2px}
+    .brand__chevron::after{right:-2px}
+    .brand:hover .brand__chevron,
+    .brand:focus-within .brand__chevron{ transform:translateY(2px) scaleX(1.05) }
 
-    /* ---------------- Search bar (mobile-first) ---------------- */
-    .search-row{display:flex;align-items:center;gap:8px;margin-top:10px}
-    .search { flex:1; display:flex; align-items:center; gap:8px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); padding:6px;border-radius:999px; }
-    .search input{flex:1;border:0;background:transparent;padding:10px 12px;font-weight:600;color:#fff;outline:none;font-size:0.95rem}
-    .search button{background:transparent;border:0;color:#fff;font-size:1.05rem;cursor:pointer;padding:6px}
-    .controls { display:flex; gap:8px; align-items:center }
-    .icon-btn{background:var(--glass);border:0;padding:8px;border-radius:10px;color:#fff;font-weight:700;cursor:pointer}
+    /* ===== Mega menu + recherche ===== */
+    .mega-btn{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+    .mega{position:absolute;left:16px;right:16px;top:72px;background:var(--bg);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:14px;display:none}
+    .mega.open{display:block}
+    .mega__grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+    .mega__col{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--panel)}
+    .mega__title{margin:.2rem 0 .5rem;font-size:14px;color:var(--muted);font-weight:700}
+    .mega a{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px}
+    .mega a:hover{background:rgba(0,0,0,.04)}
+    [data-theme="dark"] .mega a:hover{background:rgba(255,255,255,.06)}
 
-    /* ---------------- Nav (collapsible on mobile) ---------------- */
-    nav.app-nav{margin-top:12px;background:rgba(0,0,0,0.03);border-radius:10px;padding:6px;display:flex;gap:8px;overflow:auto}
-    nav.app-nav a{white-space:nowrap;text-decoration:none;color:var(--text-dark);padding:8px 10px;font-weight:700;border-radius:8px}
-    nav.app-nav a.active{background:#fff;color:var(--accent)}
-    /* small helper to allow horizontal scroll but prevent layout break */
-    nav.app-nav::-webkit-scrollbar{height:6px}
-    nav.app-nav::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12);border-radius:6px}
+    .search{flex:1;display:flex;align-items:stretch;gap:0}
+    .search__cat{border:1px solid var(--line);border-right:none;border-radius:10px 0 0 10px;padding:0 10px;background:var(--panel)}
+    .search__cat select{all:unset;font-size:14px}
+    .search__input{flex:1;border:1px solid var(--line);border-left:none;border-right:none;background:#fff;padding:0 12px}
+    [data-theme="dark"] .search__input{background:#0b1220;color:inherit}
+    .search__input input{all:unset;width:100%;height:44px}
+    .search__btn{border:1px solid var(--line);border-left:none;border-radius:0 10px 10px 0;background:linear-gradient(180deg,var(--brand-400),var(--brand-600));color:#001018;padding:0 14px;display:flex;align-items:center;font-weight:700}
 
-    /* ---------------- Hero (stacked on mobile) ---------------- */
-    .hero{display:flex;flex-direction:column;gap:12px;margin-top:14px}
-    .hero-card{background:var(--glass);border-radius:12px;padding:12px;color:#fff}
-    .hero-card h2{font-family:'Montserrat';font-size:1.15rem;margin-bottom:6px}
-    .hero-meta{font-size:0.9rem;color:rgba(255,255,255,0.95)}
-    .hero-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-    .btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;border:0;padding:10px 12px;border-radius:10px;font-weight:800;cursor:pointer}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.12);color:#fff}
+    /* ===== Liens compte / retours / panier ===== */
+    .quick{display:flex;align-items:center;gap:10px}
+    .quick__item{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+    .quick__hint{font-size:12px;color:var(--muted)}
+    .cart-btn{position:relative}
+    .cart-badge{position:absolute;top:-6px;right:-6px;background:var(--ok);color:#fff;font-size:12px;min-width:20px;height:20px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 6px}
 
-    /* ---------------- Compact events list for mobile ---------------- */
-    .section-title{display:flex;align-items:center;justify-content:space-between;margin-top:16px;margin-bottom:8px}
-    .section-title h3{font-family:'Montserrat';font-size:1rem}
-    .events-list{display:flex;flex-direction:column;gap:12px}
-    .event-item{display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:10px;padding:10px;box-shadow:0 8px 24px rgba(0,0,0,0.06);color:var(--text-dark)}
-    .event-thumb{width:98px;height:70px;border-radius:8px;flex:0 0 98px;object-fit:cover}
-    .event-body{flex:1}
-    .event-title{font-weight:700;font-size:0.98rem;margin-bottom:6px}
-    .event-meta{display:flex;gap:8px;align-items:center;font-size:0.85rem;color:var(--muted);margin-bottom:8px}
-    .price{font-weight:800;color:var(--accent)}
-    .event-actions{display:flex;gap:8px}
+    /* ===== Bandeaux & sections “vivants” ===== */
+    .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(90deg,var(--brand-50),transparent)}
+    [data-theme="dark"] .strip{background:linear-gradient(90deg,rgba(122,92,240,.12),transparent)}
+    .strip__row{display:flex;gap:12px;overflow:auto;scroll-snap-type:x mandatory;padding:10px 16px}
+    .deal{min-width:240px;scroll-snap-align:start;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--panel)}
+    .deal__title{margin:.2rem 0 .3rem}
+    .grid{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}
+    .card{grid-column:span 3;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg);box-shadow:var(--shadow)}
+    .card__media{height:160px;background:linear-gradient(135deg,#eef, #fef)}
+    .card__body{padding:12px}
+    .price{font-weight:900}
+    .old{color:var(--muted);text-decoration:line-through;margin-left:6px}
+    .cta{display:flex;gap:8px;margin-top:8px}
+    .badge{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 8px}
 
-    /* ---------------- Popular horizontal (small cards) ---------------- */
-    .popular-row{display:flex;gap:10px;overflow:auto;padding-bottom:6px}
-    .popular-card{min-width:170px;background:#fff;border-radius:10px;padding:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06);color:var(--text-dark)}
+    .footer{margin:24px 0;text-align:center;color:var(--muted);font-size:14px}
 
-    /* ---------------- Filters modal (mobile friendly) ---------------- */
-    .filters-btn{display:flex;justify-content:center;margin-top:12px}
-    .filters-btn button{width:100%;padding:10px;border-radius:10px;border:0;background:#fff;color:var(--accent);font-weight:800}
-    .filters-modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:flex-end;z-index:1500}
-    .filters-panel{background:#fff;border-top-left-radius:14px;border-top-right-radius:14px;padding:14px;max-height:78vh;overflow:auto}
-
-    /* ---------------- Testimonials, newsletter, faq ---------------- */
-    .testimonials{margin-top:14px;display:flex;flex-direction:column;gap:10px}
-    .testimonial{background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06);color:var(--text-dark)}
-    .newsletter{background:#fff;margin-top:14px;padding:12px;border-radius:10px;display:flex;gap:8px;align-items:center}
-    .newsletter input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
-    .faq .faq-item{background:#fff;padding:12px;border-radius:10px;margin-top:8px;cursor:pointer}
-
-    /* ---------------- Footer ---------------- */
-    footer.app-footer{margin-top:18px;padding:12px;text-align:center;color:var(--muted);font-size:0.9rem}
-
-    /* ---------------- Modals & cookie ---------------- */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.65);display:none;align-items:center;justify-content:center;z-index:1600}
-    .modal{background:#fff;padding:12px;border-radius:10px;width:92%;max-width:520px}
-    .cookie-banner{position:fixed;left:12px;right:12px;bottom:12px;background:#fff;padding:12px;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,0.2);display:none;align-items:center;justify-content:space-between;gap:8px;z-index:1700}
-
-    /* ---------------- Small responsive tweaks ---------------- */
-    @media(min-width:700px){
-      .hero{flex-direction:row}
-      .hero-card{flex:1}
-      .popular-row{padding:8px 0}
-      nav.app-nav{justify-content:flex-start}
-      .app{padding:20px 28px}
+    /* ===== Responsive ===== */
+    @media (max-width:1200px){ .mega__grid{grid-template-columns:repeat(4,1fr)} .card{grid-column:span 4} }
+    @media (max-width:900px){
+      .mainbar__row{flex-wrap:wrap;height:auto;padding:10px 0}
+      .search{order:3;width:100%}
+      .mega{left:0;right:0}
+    }
+    @media (max-width:680px){
+      .card{grid-column:span 6}
+      .quick{gap:6px}
+      .topbar__row{justify-content:center}
+    }
+    @media (max-width:460px){
+      .card{grid-column:span 12}
+      .brand__name{font-size:18px}
+      .brand__chevron{height:2px}
     }
   </style>
 </head>
 <body>
-  <div class="app" role="application">
+  <a class="sr-only" href="#main">Aller au contenu</a>
 
-    <!-- Header -->
-    <header class="app-header" role="banner">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" role="button" tabindex="0">
-          <span></span><span></span><span></span>
+  <!-- ===== Header Ét. 1 : utilitaires ===== -->
+  <div class="topbar">
+    <div class="container topbar__row">
+      <div class="topbar__left">
+        <div class="select" aria-label="Choisir votre lieu">
+          <span aria-hidden="true">📍</span>
+          <select id="place">
+            <option>France</option><option>Belgique</option><option>Suisse</option><option>Canada</option>
+          </select>
         </div>
-        <div class="brand" aria-hidden="false">
-          <img src="https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png" alt="Logo Marketlify">
-          <h1>Marketlify</h1>
+        <div class="select" aria-label="Choisir la devise">
+          <span aria-hidden="true">💶</span>
+          <select id="currency">
+            <option>EUR €</option><option>CHF Fr.</option><option>USD $</option><option>CAD $</option>
+          </select>
         </div>
-      </div>
-
-      <div style="display:flex;gap:8px;align-items:center">
-        <button id="accountBtn" class="icon-btn" aria-label="Mon compte">Mon compte</button>
-      </div>
-    </header>
-
-    <!-- Search & small controls -->
-    <div class="search-row" role="search" aria-label="Recherche Marketlify">
-      <div class="search" style="flex:1">
-        <input id="searchInput" list="searchSuggestions" placeholder="Rechercher artiste, ville, événement..." aria-label="Rechercher">
-        <datalist id="searchSuggestions">
-          <option value="Maitre Gims - Paris"></option>
-          <option value="Rock Festival Lyon"></option>
-          <option value="Théâtre Comédie - Marseille"></option>
-        </datalist>
-        <button id="searchBtn" aria-label="Lancer la recherche">🔍</button>
-      </div>
-      <div class="controls">
-        <button id="filtersOpen" class="icon-btn" aria-haspopup="dialog" aria-controls="filtersModal">Filtres</button>
-        <button id="themeToggle" class="icon-btn" aria-pressed="false" title="Mode sombre">🌙</button>
-      </div>
-    </div>
-
-    <!-- Nav tags (horizontal scroll if needed) -->
-    <nav class="app-nav" role="navigation" aria-label="Navigation principale" id="mainNav">
-      <a href="#home" class="active">Accueil</a>
-      <a href="#promos">Promotions</a>
-      <a href="#nouvelles">Nouveautés</a>
-      <a href="#categories">Catégories</a>
-      <a href="#contact">Contact</a>
-    </nav>
-
-    <!-- HERO -->
-    <main id="home" class="hero" role="main" aria-label="Section principale">
-      <div class="hero-card" aria-labelledby="heroTitle">
-        <h2 id="heroTitle">Billets de concerts & spectacles — en 2 clics</h2>
-        <div class="hero-meta">Recherche intelligente, promos exclusives, billetterie instantanée.</div>
-        <div class="hero-actions">
-          <button id="discoverBtn" class="btn">🎫 Parcourir les billets</button>
-          <button id="subscribeBtn" class="btn ghost">✉️ Newsletter</button>
-          <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
-            <span style="background:#fff;color:var(--accent);padding:6px 8px;border-radius:8px;font-weight:800">Paiement sécurisé</span>
-          </div>
-        </div>
-
-        <!-- Popular strip (compact) -->
-        <div style="margin-top:12px">
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <strong style="color:#fff">Tendances</strong>
-            <small style="color:rgba(255,255,255,0.9);font-weight:700" id="trendingCount">0</small>
-          </div>
-          <div class="popular-row" id="popularList" aria-label="Événements populaires" tabindex="0" style="margin-top:8px"></div>
-        </div>
-      </div>
-
-      <aside class="hero-right hero-card" style="background:#fff;color:var(--text-dark)">
-        <div style="font-weight:800" id="nextEventTitle">Maitre Gims — Paris La Défense Arena</div>
-        <div style="color:var(--muted);margin-top:6px;font-size:0.9rem">Samedi 20 décembre 2025 — Paris</div>
-        <div style="margin-top:8px;font-weight:900;color:var(--accent)" id="countdown">Chargement…</div>
-        <div style="display:flex;gap:8px;margin-top:10px">
-          <button class="btn" id="buyNow">Acheter</button>
-          <button class="btn ghost" id="addCalendar">Ajouter au calendrier</button>
-        </div>
-      </aside>
-    </main>
-
-    <!-- Filters button (opens modal) -->
-    <div class="filters-btn"><button id="filtersOpenPrimary">Afficher les filtres</button></div>
-
-    <!-- Events list (mobile stacked) -->
-    <section aria-label="Liste d'événements" style="margin-top:12px">
-      <div class="section-title">
-        <h3>Événements</h3>
-        <div style="display:flex;gap:8px;align-items:center">
-          <select id="sortSelect" aria-label="Trier" style="padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.08)">
-            <option value="soon">Date proche</option>
-            <option value="price-asc">Prix ↑</option>
-            <option value="price-desc">Prix ↓</option>
-            <option value="popular">Popularité</option>
+        <div class="select" aria-label="Langue">
+          <span aria-hidden="true">🌐</span>
+          <select id="lang">
+            <option>FR</option><option>EN</option>
           </select>
         </div>
       </div>
-
-      <div id="eventsGrid" class="events-list" aria-live="polite"></div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="testimonials" aria-label="Avis clients">
-      <div class="testimonial"><strong>★★★★★</strong><div style="margin-top:6px;font-weight:700">Super expérience ! Billets reçus en 2 minutes.</div><div style="color:var(--muted);font-size:0.85rem;margin-top:6px">— Clara, Paris</div></div>
-      <div class="testimonial"><strong>★★★★☆</strong><div style="margin-top:6px;font-weight:700">Bonne interface, service client réactif.</div><div style="color:var(--muted);font-size:0.85rem;margin-top:6px">— Ahmed, Lyon</div></div>
-    </section>
-
-    <!-- Newsletter -->
-    <section class="newsletter" aria-label="Inscription newsletter" style="margin-top:12px">
-      <input id="newsletterEmail" type="email" placeholder="Ton email">
-      <button id="newsletterBtn" class="btn">S'inscrire</button>
-    </section>
-
-    <!-- FAQ -->
-    <section class="faq" style="margin-top:12px" aria-label="FAQ">
-      <h3 style="margin-bottom:8px">FAQ</h3>
-      <div class="faq-item" data-open="false">Comment recevoir mon billet ?<div class="muted" style="display:none;margin-top:8px">Ton billet arrive par email en PDF avec QR-code. Montre-le à l'entrée.</div></div>
-      <div class="faq-item" data-open="false">Politique de remboursement<div class="muted" style="display:none;margin-top:8px">Consulte les CGV en bas du site pour les conditions exactes.</div></div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="app-footer" style="margin-top:18px">
-      <div style="font-weight:700">© 2025 Marketlify</div>
-      <div style="color:var(--muted);margin-top:6px"><a href="#legal">Mentions légales</a> • <a href="#cgv">CGV</a> • <a href="#privacy">Politique de confidentialité</a></div>
-      <div style="color:var(--muted);margin-top:6px;font-size:12px">Site maquette — connecter paiements & serveurs pour production.</div>
-    </footer>
+      <div class="topbar__right">
+        <a href="#" class="chip">Aide</a>
+        <a href="#" class="chip">Carte cadeau</a>
+        <button id="theme" class="chip" aria-pressed="false">🌓 Thème</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Filters Modal (mobile) -->
-  <div id="filtersModal" class="filters-modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="filters-panel" role="document">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <strong>Filtres</strong>
-        <button id="filtersClose" style="background:transparent;border:0;font-weight:800;cursor:pointer">✕</button>
+  <!-- ===== Header Ét. 2 : principal ===== -->
+  <header class="mainbar" role="banner">
+    <div class="container mainbar__row">
+      <!-- Logo + chevron original -->
+      <a class="brand" href="/" aria-label="Accueil MarketLify">
+        <span class="brand__logo" aria-hidden="true"></span>
+        <span class="brand__wordmark">
+          <span class="brand__name">MarketLify</span>
+          <span class="brand__chevron" aria-hidden="true"></span>
+        </span>
+      </a>
+
+      <!-- Bouton Mega -->
+      <button id="megaBtn" class="mega-btn" aria-expanded="false" aria-controls="mega">
+        ☰ Catégories
+      </button>
+
+      <!-- Recherche centrale -->
+      <form id="searchForm" class="search" role="search" aria-label="Recherche d’événements">
+        <div class="search__cat">
+          <label class="sr-only" for="cat">Catégorie</label>
+          <select id="cat" name="cat">
+            <option value="">Tous</option>
+            <option>Concerts</option><option>Théâtre</option><option>Humour</option>
+            <option>Sport</option><option>Famille</option><option>Électro</option>
+          </select>
+        </div>
+        <div class="search__input">
+          <label class="sr-only" for="q">Recherche</label>
+          <input id="q" name="q" type="search" placeholder="Artiste, événement, lieu…" autocomplete="off" />
+        </div>
+        <button class="search__btn" type="submit" title="Rechercher">🔎 Rechercher</button>
+      </form>
+
+      <!-- Compte / retours / panier -->
+      <div class="quick" aria-label="Accès rapide">
+        <a href="#" class="quick__item">
+          <span class="quick__hint">Bonjour, connectez-vous</span>
+          <strong>Compte</strong>
+        </a>
+        <a href="#" class="quick__item">
+          <span class="quick__hint">Suivi</span>
+          <strong>Retours & commandes</strong>
+        </a>
+        <button id="cartBtn" class="btn cart-btn" aria-label="Panier">
+          🛒 Panier <span id="cartBadge" class="cart-badge" aria-live="polite">0</span>
+        </button>
       </div>
-      <div style="margin-top:12px">
-        <label style="font-weight:700">Ville</label>
-        <input id="city" placeholder="Ex: Paris" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);margin-top:8px">
-      </div>
-      <div style="margin-top:12px">
-        <label style="font-weight:700">Catégorie</label>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-          <button class="chip active" data-cat="">Tous</button>
-          <button class="chip" data-cat="concert">Concerts</button>
-          <button class="chip" data-cat="theatre">Théâtre</button>
-          <button class="chip" data-cat="comedy">Humour</button>
-          <button class="chip" data-cat="festival">Festival</button>
+    </div>
+
+    <!-- Méga-menu -->
+    <div id="mega" class="mega" role="dialog" aria-modal="false" aria-label="Catégories">
+      <div class="mega__grid">
+        <div class="mega__col">
+          <div class="mega__title">Concerts</div>
+          <a href="#">Pop <span>→</span></a>
+          <a href="#">Rock <span>→</span></a>
+          <a href="#">Rap <span>→</span></a>
+          <a href="#">Électro <span>→</span></a>
+        </div>
+        <div class="mega__col">
+          <div class="mega__title">Spectacles</div>
+          <a href="#">Théâtre <span>→</span></a>
+          <a href="#">Humour <span>→</span></a>
+          <a href="#">Famille <span>→</span></a>
+          <a href="#">Comédies musicales <span>→</span></a>
+        </div>
+        <div class="mega__col">
+          <div class="mega__title">Sports</div>
+          <a href="#">Football <span>→</span></a>
+          <a href="#">Basket <span>→</span></a>
+          <a href="#">Sports urbains <span>→</span></a>
+          <a href="#">Sports motors <span>→</span></a>
+        </div>
+        <div class="mega__col">
+          <div class="mega__title">Par ville</div>
+          <a href="#">Paris <span>→</span></a>
+          <a href="#">Lyon <span>→</span></a>
+          <a href="#">Marseille <span>→</span></a>
+          <a href="#">Toulouse <span>→</span></a>
+        </div>
+        <div class="mega__col">
+          <div class="mega__title">Offres</div>
+          <a href="#">Dernière minute <span>→</span></a>
+          <a href="#">Moins de 50 € <span>→</span></a>
+          <a href="#">Très demandés <span>→</span></a>
+          <a href="#">Nouveautés <span>→</span></a>
         </div>
       </div>
-      <div style="margin-top:12px;display:flex;gap:8px">
-        <input id="minPrice" type="number" placeholder="Min €" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)">
-        <input id="maxPrice" type="number" placeholder="Max €" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)">
-      </div>
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button id="applyFilters" class="btn" style="flex:1">Appliquer</button>
-        <button id="resetFilters" class="btn ghost" style="flex:1">Réinitialiser</button>
-      </div>
-      <div style="margin-top:8px;color:var(--muted);font-size:13px">Astuce : tu peux trier par date ou popularité depuis la liste.</div>
     </div>
-  </div>
+  </header>
 
-  <!-- Modal: purchase simulation -->
-  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <strong id="modalTitle">Achat</strong>
-        <button id="modalClose" style="background:transparent;border:0;font-weight:800;cursor:pointer">✕</button>
+  <!-- ===== Bandeau “offres du jour” vivant ===== -->
+  <section class="strip" aria-label="Offres du jour">
+    <div class="strip__row container">
+      <div class="deal">
+        <div class="badge">-15% nouveau client</div>
+        <h3 class="deal__title">Pack duo Pop Night</h3>
+        <p class="muted">Deux billets + boisson offerte</p>
       </div>
-      <div id="modalBody" style="margin-top:8px">Charger...</div>
-    </div>
-  </div>
-
-  <!-- Stock popup (subtle) -->
-  <div id="stockPopup" class="modal-backdrop" style="display:none;align-items:flex-end;justify-content:center;z-index:1550">
-    <div class="modal" style="border-radius:12px;max-width:420px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <strong>Stock limité</strong>
-        <button data-close-stock style="background:transparent;border:0;font-weight:800;cursor:pointer">✕</button>
+      <div class="deal">
+        <div class="badge">Très demandé</div>
+        <h3 class="deal__title">Rap ÉCLIPSE • Paris</h3>
+        <p class="muted">Ce week-end — reste peu de places</p>
       </div>
-      <div style="margin-top:8px">Il ne reste plus que <strong id="lowStock">6</strong> places pour cet événement.</div>
-      <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">
-        <button class="btn ghost" data-close-stock>Plus tard</button>
-        <button id="buyNowFromStock" class="btn">Acheter</button>
+      <div class="deal">
+        <div class="badge">Familial</div>
+        <h3 class="deal__title">Cirque Borealis</h3>
+        <p class="muted">Tarif enfant disponible</p>
+      </div>
+      <div class="deal">
+        <div class="badge">Électro</div>
+        <h3 class="deal__title">Pulse Festival • Nice</h3>
+        <p class="muted">Pass jour – Economisez 12 €</p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Cookie banner -->
-  <div id="cookieBanner" class="cookie-banner" role="dialog" aria-live="polite">
-    <div style="flex:1">
-      <strong>Nous utilisons des cookies</strong>
-      <div class="muted" style="font-size:13px;margin-top:4px">Pour améliorer ton expérience et t'envoyer des offres.</div>
-    </div>
-    <div style="display:flex;gap:8px">
-      <button id="acceptCookies" class="btn">Accepter</button>
-      <button id="manageCookies" class="btn ghost">Gérer</button>
-    </div>
-  </div>
+  <main id="main" class="container" style="padding:18px 0">
+    <h2 style="margin:.2rem 0 1rem">Recommandés pour vous</h2>
+    <section class="grid" id="cards" aria-live="polite"></section>
+  </main>
 
-  <!-- Minimal structured data -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"Marketlify",
-    "url":"https://marketlify-shopping.netlify.app",
-    "logo":"https://i.postimg.cc/KjLQ8q3b/Background-Eraser.png"
-  }
-  </script>
+  <footer class="footer">
+    © <span id="year"></span> MarketLify — Tous droits réservés · <a href="#">CGV</a> · <a href="#">Confidentialité</a> · <a href="#">Cookies</a>
+  </footer>
 
-  <!-- ---------------- JS interactive (mobile-optimized) ---------------- -->
   <script>
-    /* ---------- Sample events dataset (same as before) ---------- */
-    const EVENTS = [
-      {id:1,title:"Maitre Gims - Paris La Défense",city:"Paris",date:"2025-12-20T20:00:00",price:45,category:"concert",img:"https://picsum.photos/seed/gims/600/400",pop:95,stock:12,desc:"Concert hip-hop & pop."},
-      {id:2,title:"Rock Night - Lyon",city:"Lyon",date:"2025-10-02T19:00:00",price:30,category:"concert",img:"https://picsum.photos/seed/rock/600/400",pop:80,stock:4,desc:"Les meilleurs groupes locaux."},
-      {id:3,title:"Théâtre Comédie - Marseille",city:"Marseille",date:"2025-09-15T20:30:00",price:25,category:"theatre",img:"https://picsum.photos/seed/theatre/600/400",pop:70,stock:20,desc:"Pièce comique familiale."},
-      {id:4,title:"Festival Jazz - Bordeaux",city:"Bordeaux",date:"2025-11-10T18:00:00",price:60,category:"festival",img:"https://picsum.photos/seed/jazz/600/400",pop:85,stock:50,desc:"3 jours de jazz."},
-      {id:5,title:"Stand-up Night - Toulouse",city:"Toulouse",date:"2025-09-25T21:00:00",price:20,category:"comedy",img:"https://picsum.photos/seed/comedy/600/400",pop:65,stock:6,desc:"Soirée stand-up"}
-    ];
+  // ===== Petit état pour “vivant” (sans copier qui que ce soit) =====
+  const $ = (s,p=document)=>p.querySelector(s);
+  const $$ = (s,p=document)=>[...p.querySelectorAll(s)];
+  const euro = n => (new Intl.NumberFormat('fr-FR',{style:'currency',currency:($('#currency')?.value?.includes('USD')?'USD':$('#currency')?.value?.includes('CAD')?'CAD':$('#currency')?.value?.includes('CHF')?'CHF':'EUR')})).format(n);
 
-    /* --------- Helpers --------- */
-    const $ = s => document.querySelector(s);
-    const $$ = s => Array.from(document.querySelectorAll(s));
+  // Jeux d’événements (exemples originaux)
+  const EVENTS = [
+    {id:'e1',title:'Aurora Nova Tour',artist:'LUNAÏ',city:'Paris',genre:'Pop',when:'2025-10-12 20:00',price:89,cut:109},
+    {id:'e2',title:'Rock Surge',artist:'Volt Riders',city:'Lyon',genre:'Rock',when:'2025-09-28 19:30',price:55,cut:79},
+    {id:'e3',title:'Flowstate',artist:'MIRA',city:'Marseille',genre:'Électro',when:'2025-11-02 21:00',price:49,cut:72},
+    {id:'e4',title:'Punchlines Live',artist:'Rayan K.',city:'Paris',genre:'Humour',when:'2025-09-20 20:30',price:44,cut:64},
+    {id:'e5',title:'Classic Stars',artist:'Clair de Lune',city:'Bordeaux',genre:'Famille',when:'2025-12-15 18:00',price:48,cut:70},
+    {id:'e6',title:'Pulse Festival',artist:'Various',city:'Nice',genre:'Électro',when:'2025-09-27 17:00',price:69,cut:95},
+    {id:'e7',title:'Noir & Lumière',artist:'ÉCLIPSE',city:'Toulouse',genre:'Rap',when:'2025-09-18 20:00',price:58,cut:84},
+    {id:'e8',title:'Les Impros d’Or',artist:'Troupe Envol',city:'Nantes',genre:'Théâtre',when:'2025-09-22 20:00',price:36,cut:52},
+  ];
 
-    /* ---------- Render popular strip (mobile) ---------- */
-    function renderPopular(){
-      const el = $('#popularList'); el.innerHTML = '';
-      const top = EVENTS.slice().sort((a,b)=>b.pop-a.pop).slice(0,6);
-      $('#trendingCount').textContent = top.length;
-      top.forEach(e=>{
-        const d = document.createElement('div'); d.className='popular-card';
-        d.innerHTML = `<img src="${e.img}" alt="${e.title}" style="width:100%;height:80px;object-fit:cover;border-radius:6px"><div style="font-weight:800;margin-top:8px">${e.title}</div><div style="color:var(--muted);font-size:12px;margin-top:6px">${new Date(e.date).toLocaleString()}</div><div style="margin-top:8px"><button class="btn" data-id="${e.id}" style="padding:8px 10px">Voir</button></div>`;
-        el.appendChild(d);
-      });
-    }
-
-    /* ---------- Render events list (stacked mobile) ---------- */
-    function renderEvents(list){
-      const grid = $('#eventsGrid'); grid.innerHTML = '';
-      if(!list || list.length===0){ grid.innerHTML = '<div class="muted">Aucun événement trouvé.</div>'; return; }
-      list.forEach(e=>{
-        const item = document.createElement('article'); item.className='event-item';
-        item.innerHTML = `<img class="event-thumb" src="${e.img}" alt="${e.title}" loading="lazy"><div class="event-body"><div class="event-title">${e.title}</div><div class="event-meta"><span>${e.city}</span><span>•</span><span>${new Date(e.date).toLocaleDateString()}</span></div><div style="display:flex;justify-content:space-between;align-items:center"><div class="price">${e.price}€</div><div class="event-actions"><button class="btn" data-id="${e.id}">Voir</button></div></div></div>`;
-        grid.appendChild(item);
-      });
-    }
-
-    /* ---------- Initial render ---------- */
-    renderPopular();
-    renderEvents(EVENTS);
-
-    /* ---------- Filters: open modal ---------- */
-    const filtersModal = $('#filtersModal');
-    $('#filtersOpen')?.addEventListener('click', ()=>{ filtersModal.style.display='flex'; filtersModal.setAttribute('aria-hidden','false'); $('#hamburger').setAttribute('aria-expanded','true'); });
-    $('#filtersOpenPrimary')?.addEventListener('click', ()=>{ filtersModal.style.display='flex'; filtersModal.setAttribute('aria-hidden','false'); });
-    $('#filtersClose')?.addEventListener('click', ()=>{ filtersModal.style.display='none'; filtersModal.setAttribute('aria-hidden','true'); });
-
-    /* ---------- Chips behaviour ---------- */
-    $$('.chip').forEach(btn=>{
-      btn.addEventListener('click', ()=> {
-        $$('.chip').forEach(c=>c.classList.remove('active'));
-        btn.classList.add('active');
-      });
+  // Render cartes
+  function renderCards(){
+    const host = $('#cards'); host.innerHTML='';
+    const frag = document.createDocumentFragment();
+    EVENTS.forEach(ev=>{
+      const card = document.createElement('article');
+      card.className='card';
+      card.innerHTML = `
+        <div class="card__media" role="img" aria-label="Affiche abstraite pour ${ev.title}"></div>
+        <div class="card__body">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong>${ev.title}</strong>
+            <span class="badge">${ev.genre}</span>
+          </div>
+          <div style="color:var(--muted);font-size:14px">${ev.artist} — ${ev.city} · ${ev.when}</div>
+          <div style="margin:6px 0 0">
+            <span class="price">${euro(ev.price)}</span>
+            <span class="old">${euro(ev.cut)}</span>
+          </div>
+          <div class="cta">
+            <button class="btn btn--brand add" data-id="${ev.id}">Ajouter au panier</button>
+            <button class="btn btn--ghost">Voir</button>
+          </div>
+        </div>`;
+      frag.appendChild(card);
     });
+    host.appendChild(frag);
+  }
 
-    /* ---------- Apply / Reset filters ---------- */
-    $('#applyFilters')?.addEventListener('click', ()=> {
-      applyFilters();
-      filtersModal.style.display='none';
-      filtersModal.setAttribute('aria-hidden','true');
+  // Mega menu toggle
+  const megaBtn = $('#megaBtn'), mega = $('#mega');
+  megaBtn.addEventListener('click', ()=>{
+    const open = !mega.classList.contains('open');
+    mega.classList.toggle('open', open);
+    megaBtn.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ mega.classList.remove('open'); megaBtn.setAttribute('aria-expanded','false'); } });
+  document.addEventListener('click', (e)=>{
+    if(!mega.contains(e.target) && e.target!==megaBtn){ mega.classList.remove('open'); megaBtn.setAttribute('aria-expanded','false'); }
+  });
+
+  // Recherche (simu filtre)
+  $('#searchForm').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const q = ($('#q').value||'').toLowerCase();
+    const cat = $('#cat').value;
+    const res = EVENTS.filter(ev=>{
+      const hay = (ev.title+' '+ev.artist+' '+ev.city+' '+ev.genre).toLowerCase();
+      const okQ = !q || hay.includes(q);
+      const okC = !cat || ev.genre===cat;
+      return okQ && okC;
     });
-    $('#resetFilters')?.addEventListener('click', ()=> {
-      $('#city').value=''; $('#minPrice').value=''; $('#maxPrice').value=''; $$('.chip').forEach(c=>c.classList.remove('active')); $$('.chip')[0].classList.add('active');
-      renderEvents(EVENTS);
-      filtersModal.style.display='none';
-    });
+    // petit feedback
+    $('#cards').innerHTML = `<div class="card" style="grid-column:span 12;padding:12px;text-align:center">Résultats : <strong>${res.length}</strong></div>`;
+    setTimeout(()=>{ EVENTS.splice(0,EVENTS.length,...res); renderCards(); bindCart(); }, 150);
+  });
 
-    function applyFilters(){
-      const q = ($('#searchInput').value || '').trim().toLowerCase();
-      const city = ($('#city').value || '').trim().toLowerCase();
-      const cat = ($$('.chip.active')[0]?.dataset.cat) || '';
-      const min = parseFloat($('#minPrice').value) || 0;
-      const max = parseFloat($('#maxPrice').value) || Infinity;
-      const sort = $('#sortSelect').value || 'soon';
-      let res = EVENTS.slice().filter(e=>{
-        if(q && !((e.title+e.desc).toLowerCase().includes(q))) return false;
-        if(city && !e.city.toLowerCase().includes(city)) return false;
-        if(cat && e.category !== cat) return false;
-        if(e.price < min || e.price > max) return false;
-        return true;
-      });
-      if(sort==='price-asc') res.sort((a,b)=>a.price-b.price);
-      if(sort==='price-desc') res.sort((a,b)=>b.price-a.price);
-      if(sort==='soon') res.sort((a,b)=> new Date(a.date)-new Date(b.date));
-      if(sort==='popular') res.sort((a,b)=> b.pop-a.pop);
-      renderEvents(res);
-    }
-
-    /* ---------- Delegated clicks: open modal / share ---------- */
-    document.body.addEventListener('click', (ev)=>{
-      const t = ev.target;
-      if(t.matches('button[data-id]')) openPurchaseModal(parseInt(t.dataset.id));
-      if(t.matches('[data-close-stock]')) closeStockPopup();
-      if(t.matches('#buyNowFromStock')) openPurchaseModal(EVENTS[0].id);
-      if(t.matches('#searchBtn')) applyFilters();
-      if(t.matches('#discoverBtn')) { document.getElementById('categories')?.scrollIntoView({behavior:'smooth'}); }
-      if(t.matches('#subscribeBtn')) { document.getElementById('newsletterEmail').focus(); }
-    });
-
-    /* ---------- Purchase modal ---------- */
-    const modalBackdrop = $('#modalBackdrop');
-    function openPurchaseModal(id){
-      const ev = EVENTS.find(x=>x.id===id); if(!ev) return;
-      $('#modalTitle').textContent = `Acheter — ${ev.title}`;
-      $('#modalBody').innerHTML = `<p style="margin:6px 0">${ev.title} — ${new Date(ev.date).toLocaleString()}</p><label>Quantité</label><select id="qty" style="margin-top:6px;padding:8px;border-radius:8px"><option>1</option><option>2</option><option>3</option></select><div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end"><button id="cancelBuy" class="btn ghost">Annuler</button><button id="confirmBuy" class="btn">Confirmer</button></div>`;
-      modalBackdrop.style.display='flex'; modalBackdrop.setAttribute('aria-hidden','false');
-      $('#cancelBuy').onclick = ()=> { modalBackdrop.style.display='none'; };
-      $('#confirmBuy').onclick = ()=> { alert('Achat simulé — merci (simulation).'); modalBackdrop.style.display='none'; };
-      $('#modalClose').onclick = ()=> { modalBackdrop.style.display='none'; };
-    }
-
-    /* ---------- Countdown (for first event) ---------- */
-    function startCountdown(iso, elID){
-      const el = document.getElementById(elID);
-      if(!el) return;
-      function update(){
-        const diff = new Date(iso) - new Date();
-        if(diff <= 0){ el.textContent = 'Événement en cours / terminé'; return; }
-        const d = Math.floor(diff/86400000);
-        const h = Math.floor((diff%86400000)/3600000);
-        const m = Math.floor((diff%3600000)/60000);
-        const s = Math.floor((diff%60000)/1000);
-        el.textContent = `${d}j ${h}h ${m}m ${s}s`;
-      }
-      update(); setInterval(update,1000);
-    }
-    startCountdown(EVENTS[0].date, 'countdown');
-
-    /* ---------- Cookie banner ---------- */
-    function showCookie(){
-      if(localStorage.getItem('marketlifyCookies') !== 'accepted'){
-        $('#cookieBanner').style.display = 'flex';
-      }
-    }
-    $('#acceptCookies').addEventListener('click', ()=>{ localStorage.setItem('marketlifyCookies','accepted'); $('#cookieBanner').style.display='none'; });
-    $('#manageCookies').addEventListener('click', ()=> alert('Gérer les cookies (simulation)'));
-    showCookie();
-
-    /* ---------- Stock popup on load (if low stock) ---------- */
-    function showLowStock(){
-      const low = EVENTS.find(e => e.stock > 0 && e.stock <= 6);
-      if(low){
-        $('#lowStock').textContent = low.stock;
-        document.getElementById('stockPopup').style.display = 'flex';
-      }
-    }
-    function closeStockPopup(){ document.getElementById('stockPopup').style.display = 'none'; }
-    showLowStock();
-
-    /* ---------- Newsletter ---------- */
-    $('#newsletterBtn').addEventListener('click', ()=>{
-      const email = ($('#newsletterEmail').value || '').trim();
-      if(!email){ alert('Entre ton e-mail'); return; }
-      alert(`Inscription simulée — ${email} ajouté(e) à la newsletter.`);
-      $('#newsletterEmail').value = '';
-    });
-
-    /* ---------- FAQ toggle ---------- */
-    $$('.faq .faq-item').forEach(item=>{
-      item.addEventListener('click', ()=>{
-        const open = item.getAttribute('data-open') === 'true';
-        const detail = item.querySelector('.muted');
-        if(detail) detail.style.display = open ? 'none' : 'block';
-        item.setAttribute('data-open', (!open).toString());
+  // Panier “vivant”
+  let CART_COUNT = 0;
+  function bindCart(){
+    $$('.add').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        CART_COUNT++; $('#cartBadge').textContent = String(CART_COUNT);
+        btn.textContent='Ajouté !';
+        setTimeout(()=> btn.textContent='Ajouter au panier', 900);
       });
     });
+  }
 
-    /* ---------- Theme toggle (light/dark simplified) ---------- */
-    const themeBtn = $('#themeToggle');
-    let dark = false;
-    themeBtn.addEventListener('click', ()=>{
-      dark = !dark;
-      if(dark){
-        document.body.style.background = 'linear-gradient(180deg, rgba(7,11,20,0.9), rgba(2,6,12,0.9))';
-        document.documentElement.style.setProperty('--text-dark','#fff');
-        themeBtn.textContent = '☀️';
-        themeBtn.setAttribute('aria-pressed','true');
-      } else {
-        document.body.style.background = 'linear-gradient(180deg, rgba(245,87,2,0.12), rgba(148,201,233,0.08))';
-        document.documentElement.style.setProperty('--text-dark','#0f1722');
-        themeBtn.textContent = '🌙';
-        themeBtn.setAttribute('aria-pressed','false');
-      }
-    });
+  // Thème
+  const theme = $('#theme');
+  function setTheme(mode){ document.documentElement.setAttribute('data-theme',mode); theme.setAttribute('aria-pressed', String(mode==='dark')); localStorage.setItem('theme', mode); }
+  setTheme(localStorage.getItem('theme') || 'light');
+  theme.addEventListener('click', ()=> setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
 
-    /* ---------- Hamburger menu (opens filters as quick menu) ---------- */
-    $('#hamburger').addEventListener('click', ()=>{
-      const expanded = $('#hamburger').getAttribute('aria-expanded') === 'true';
-      $('#hamburger').setAttribute('aria-expanded', (!expanded).toString());
-      if(!expanded){
-        // quick open filters modal for small devices
-        filtersModal.style.display='flex'; filtersModal.setAttribute('aria-hidden','false');
-      } else {
-        filtersModal.style.display='none'; filtersModal.setAttribute('aria-hidden','true');
-      }
-    });
-
-    /* ---------- Delegation: close modals on ESC ---------- */
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape'){
-        modalBackdrop.style.display='none';
-        filtersModal.style.display='none';
-        document.getElementById('stockPopup').style.display='none';
-      }
-    });
-
-    /* ---------- Sort select change ---------- */
-    $('#sortSelect').addEventListener('change', ()=> applyFilters());
-
-    /* ---------- Smooth focus for accessibility ---------- */
-    ['searchInput','discoverBtn','subscribeBtn','buyNow'].forEach(id=>{
-      const el = document.getElementById(id); if(el) el.tabIndex = 0;
-    });
-
-    /* ---------- On load: minor UX ---------- */
-    window.addEventListener('load', ()=> {
-      // Pre-fill trending and events are rendered above
-      // Small console log for debugging
-      console.info('Marketlify mobile UI ready — events loaded:', EVENTS.length);
-    });
+  // Init
+  $('#year').textContent = new Date().getFullYear();
+  renderCards(); bindCart();
   </script>
 </body>
 </html>
